@@ -407,7 +407,7 @@ Which will give every element a 1px red border that quickly helps you see the la
 ____________________________________________________________________________________________________________________
 
 
-### Flow of HTML
+# Flow of HTML
 	
 By default, the HTML elements of a webpage will render from left to right, top to bottom, in the same order that they exist in the document. This is called *flow*.
 
