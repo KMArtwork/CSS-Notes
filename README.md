@@ -145,7 +145,7 @@ IDs are most specific and therefore will override and style rules created for Cl
 
 When writing CSS rules, you may require an HTML element to have two or more CSS selectors at the same time. This is done by combining multiple selectors, which we refer to as *chaining*. 
 
-for instance if we had multiple <h1> elements but one or more of them had had the `class` attribute with the `special` value, i.e.
+for instance if we had multiple `<h1>` elements but one or more of them had had the `class` attribute with the `special` value, i.e.
 
 ``` <h1 class='special'> ```
 
@@ -153,7 +153,7 @@ Then, in CSS, we would write
 
 ``` h1.special { ... } ```
 
-And this would *only* target the HTML elements of <h1> with the class "special". If a <p> paragraph element also had a class of "special" the rule would NOT apply.
+And this would *only* target the HTML elements of `<h1>` with the class "special". If a `<p>` paragraph element also had a class of "special" the rule would NOT apply.
 
 
 ## Descendant Combinator
@@ -168,7 +168,7 @@ Note that the `.` before main-list is necessary if we are targeting a class. If 
 
 ``` li h4 { ... } ```
 
-This would select any <h4> elements that were nested inside of a list item `<li>`
+This would select any `<h4>` elements that were nested inside of a list item `<li>`
 
 
 ## Multiple Selectors
@@ -189,138 +189,185 @@ We could write
 ____________________________________________________________________________________________________________________
 
 
-VISUAL RULES of CSS
+# Visual Rules of CSS
 
-There are some fundamental CSS VISUAL RULES that we need to be aware of
+There are some fundamental CSS VISUAL RULES that we need to be aware of.
 
+## Font Family
 
+Also known as the more technical term "typeface" is how we can specifiy what kind of font we want to use across the entire web page.
 
-FONT FAMILY, or the more technical term "typeface" is how we can specifiy what kind of font we want to use across the entire web page.
+```h1 {font-family:Georgia;} ```
 
-h1 {font-family:Georgia;} 
-
-Would set any <h1> element to be rendered with the Georgia font. 
-	-The Font being used must be installed on the user's computer or downloaded with the site
-	-WEB SAFE FONTS are a group of fonts that most browsers and operating systems already have
-		-Best to use web safe fonts so that your web pages are correctly displayed across as much PCs as possible
-		-If the font name is two or more words, put the font in quotes (single or double), i.e. {font-family:"Courier New";}
-
-
-FONT SIZE can be set by writing
-h1 {font-size:18px;}
-
-FONT WEIGHT can be changed by setting the value of font-weight to either bold or normal.
-h1 {font-weight: bold;}
-
-
-TEXT ALIGNMENT can be set with the property text-align.
-h1 {text-align: center;}
-
-	-By default all text aligns to the left side of whatever container it is in. We can set the value of the text-align property to either LEFT, CENTER, or RIGHT and also JUSTIFY which spaces out text so that it aligns with both the left and right side of the parent element.
-
-
-COLOR & BACKGROUND COLOR can be set by using the color and background-color properties and then assigning them a value.
-h1 {color:red; background-color: blue;}
-
-
-OPACITY can be changed with the opacity property and can be set from a value of 0 to 1, where 1 is fully visibile and 0 is invisible.
-h1 {opacity:0.5;}
-
-BACKGROUND IMAGE is used when we want to use an image as the background of an element instead of just a color.
-.main-banner {background-image:url('https:www.url.com)}
+This would set any `<h1>` element to be rendered with the Georgia font. There are a few rules for declaring a font family:
 	
-	-The value of the background-image property will be a url, which can either be an internal or an external link (i.e. somewhere in your project or somewhere on the internet). If it is internal it must be linked with a RELATIVE FILE PATH.
-.main-banner {background-image: url('images/mountains.jpg');
+- The Font being used must be installed on the user's computer or downloaded with the site
+- WEB SAFE FONTS are a group of fonts that most browsers and operating systems already have
+- Best to use web safe fonts so that your web pages are correctly displayed across as much PCs as possible
+- If the font name is two or more words, put the font in quotes (single or double), i.e. {font-family:"Courier New";}
+
+## Font Size 
+
+The property `font-size` is pretty self explanatory; set the value to a number value followed by 'px', which stands for 'pixels'.
+	
+```h1 {font-size:18px;} ```
+
+## Font Weight 
+
+The property `font-weight` can be set to a few different values like `normal` or `bold` but can also be set to a numerical value starting at 100 and maxing at 900 in increments of 100.
+
+```h1 {font-weight: bold;}```
+
+## Text Alignment
+	
+The property `text-align` can be set to align text to either `left`, `center`, or `right`. A fourth option is also `justify` which spaces out text so that it aligns with bot the left and right side of the parent element. By default, all text aligns to the left side of whatever container it is in.
+	
+```h1 {text-align: center;}```
+
+## Color and Background Color
+
+These can be set by using the `color` and `background-color` properties and then assigning them a value. These values must be one of the following options:
+	
+- *Keywords* like blue, red, aquamarine, etc. 
+- *RGB* (255, 150, 50) Where the number values are 0 - 255 which specify how much **red**, **green**, and **blue** are used.
+	- *RGBA* (255, 150, 50, 0.5) can also be used, where 'A' represents 'alpha', which is a fancy word for opacity. A value of 1.0 would be fully opaque and a value of 0 would be transparent. If an alpha value is **not** specified the color will default to fully opaque (1.0).
+- *HSL* (50, 100%, 50%) Where the first number represents the hue of a color wheel, ranging from 0-360. Then saturation and lightness, which are represented in a percentage value, where saturation represents how vibrant the color is (think color vs grayscale; 100% being full color) and lightness representing how much white vs black there is in the color value (100% being full white).
+	- *HSLA* (50, 100%, 50%, 0.3) can also be used, and just like RGBA, the fourth number represents the alpha value.
+- *Hex* Represented by 3-6 alpha-numeric characters like `#FFFFFF` or `#FFF`.
+	
+```h1 {color:red; background-color: (;}```
+
+## Opacity
+	
+This can be set with the `opacity` property and can be set from a value of 0 to 1, where 1 is fully visibile and 0 is invisible.
+	
+```h1 {opacity:0.5;}```
+
+## Background Image
+
+This is used when we want to use an image as the background of an element instead of just a color. The value of the background-image property will be a url, which can either be an *internal* or an *external* link (i.e. somewhere in your project or somewhere on the internet). If it is internal it must be linked with a **relative file path**
+	
+External:
+
+```.main-banner {background-image:url('https:www.url.com)}```
+	
+Internal:	
+
+```.main-banner {background-image: url('images/mountains.jpg');```
 
 
-IMPORTANT can be applied to specific declarations instead of full rules. It overrides ANY STYLE no matter how specific it is and as a result this feature should be used very sparingly. However, sometimes we will need to use it, for example when we work with multiple stylesheets. The syntax is
-p {color:blue !important;}
+## Important 
+
+This can be applied to specific declarations instead of full rules. **It overrides ANY STYLE no matter how specific it is and as a result this feature should be used very sparingly.** However, sometimes we will need to use it, for example when we work with multiple stylesheets. The syntax is
+	
+```p {color:blue !important;}```
 
 ____________________________________________________________________________________________________________________
 
-THE BOX MODEL
+# The Box Model
 
-Browsers load HTML elements with default positions and values, this can lead to unexpected user experiences and also limit the views you can create. 
+Browsers load HTML elements with default positions and values and this can lead to unexpected user experiences and also limit the views you can create. For example, when you change the background color of an element sometimes there are unintended consequences, like the color stretching beyond the bounds of the element.
+	
+All elements are "living" inside of a box. This is the box we refer to in the *box model*. When you change the background color of an element you change the entire bg color of the box. These boxes have **dimensions**, **padding**, **borders**, and **margins**.
 
-When you change the background color of an element somtimes there are unintended consequences, like the color stretching beyond the bounds of the element. All elements are "living" inside of a box. This is the box we refer to in the box model. When you change the background color of an element you change the entire bg color of the box.
-	-Boxes have DIMENSIONS, BORDERS, PADDINGS, MARGINS
+The *content* of the box is surroudned by the *padding*, which is surrounded by the *border*, and then surrounded by the *margin*.
 
-The CONTENT of the box is surroudned by the PADDING, which is surrounded by the BORDER, and then surrounded by the MARGIN
+## Height and Width
+	
+By default, these are set to hold the raw contents of the box. We can modify this by adding height and width properties in our CSS rules and then assigning them values.
+	
+```.class {height:300px; width: 600px;}```
 
+## Borders
+	
+This is a line that surrounds an element, like a frame on a painting. Borders can have width, style, and color attributes.
+	
+- *Width* can be set by defining a pixel amount of using the values thin, medium, or thick.
+- *Style* can be set to one of ten otions, none, dotted, and solid.
+- *Color* can be set using hexcodes or built in keywords like red, blue, violet, etc.
+- A borders default values are `medium, none, color` ; where color is the current color of the element. 
+	
+If width, style, or color are not given values in the CSS ruleset, then the default values will be used instead.
 
-HEIGHT and WIDTH by default are set to hold the raw contents of the box. We can modify this by adding height and width properties in our CSS rules and then assigning them values.
-.class {height:300px; width: 600px;}
-
-
-BORDERS are a line that surrounds an element, like a frame on a painting. Borders can have width, style, and color attributes.
-	-WIDTH can be set by defining a pixel amount of using the values thin, medium, or thick.
-	-STYLE can be set to one of ten otions, none, dotted, and solid.
-	-COLOR can be set using hexcodes or built in keywords like red, blue, violet, etc.
-	-A borders default values are medium, none, color ; where color is the current color of the element. If width, style, or color are not given values in the CSS ruleset, then the default values will be used instead.
-
-
-BORDER RADIUS can be used to soften/round the corners of the box/border. For instance if we set the value of the border-radius to 5px then each corner will have a radius of 5px, as in the corners will match the curvature of a circle with a radius of 5px.
+## Border Radius
+	
+This can be used to soften/round the corners of the box/border. For instance if we set the value of the border-radius to 5px then each corner will have a radius of 5px, as in the corners will match the curvature of a circle with a radius of 5px.
 
 If we want to make a border that is a perfect cricle, we set the size of the box to be equal in height and weight, and then set the value of the border-radius to 50%.
 
+```
 {...
 height: 60px; weight 60px; border: 2px solid red; border-radius: 50%;
 ...}
+```
+
+## Padding
+
+This is the space between the *borders* of the box and the *content*. Padding is like the space between the frame and the picture. We can modify the space with the `padding` selector:
+	
+```{padding: 10px;}```
+	
+This would create a 10px padding on the top, right, bottom, and left.
+
+### Padding Shorthand
+- 4 Values 
+	- We can also get more specific by using padding-top, padding-bottom, padding-left, padding-right properties and assigning them values OR we can write `{padding: 5px 6px 7px 8px;}`. This targets the padding in a clockwise direction, starting at the top. (5 top, 6 right, 7 bot, 8 left)
+
+- 3 Values 
+	- This can be used if we want to pad the left and right with the same value, but have different top and bottom values. The first value targets the top, second value targets left and right, and third targets with bottom.
+
+- 2 Values 
+	- This will pad the top and bottom with the first value and pad the left and right with the second.
 
 
+## Margin
 
-PADDING is the space between the borders of the box and the content. Padding is like the space between the frame and the picture. We can modify the space by using 
-selector {padding: 10px;}
+This is the space directly outside of the box and the rules can be modified exactly the same as padding and padding shorthand. We can also use the keyword `auto`, which lets you center the content. For example:
 
-	PADDING SHORTHAND
-	-4 VALUES We can also get more specific by using padding-top, padding-bottom, padding-left, padding-right properties and assigning them values OR we can write ...{padding: 5px 6px 7px 8px;}. This targets the padding in a clockwise direction, starting at the top. (5 top, 6 right, 7 bot, 8 left)
-
-	-3 VALUES can be used if we want to pad the left and right with the same value, but have different top and bottom values. The first value targets the top, second value targets left and right, and third targets with bottom.
-
-	-2 VALUES will pad the top and bottom with te first value and pad te left and right with the second.
-
-
-MARGIN is the space directly outside of the box and the rules can be modified exactly the same as PADDING and PADDING SHORTHAND.
-
-AUTO lets you center the content. For example
-
+```
 {...
 width: 400px;
 margin: 0 auto;
 ...}
-
+```
+	
 This sets the top and bottom margin to 0px and then automatically adjusts the left and right so that the element stays centered within its containing element. In order to center and element we must set a width, otherwise it will be automatically set to the full width of its containing element, like <body> for example. Its impossible to center an element that takes up the full width of the page since the width can change due to display &/o browser window size. Setting the width to 400 in the previous code example will cause the div to center within a containing element that is greater than 400px wide.
 
 
-MARGIN COLLAPSE refers to how overlapping vertical margin space works. When there are two separate elements (boxes) next to each other (left and right) the margin space between the two boxes is sum of both elements margins. So if box-a has a margin of 10px and box-b has a margin of 10px then the total horizontal space between them will be 20px.
+## Margin Collapse
 
-If there are two elements next to each other vertically (top/bottom) then the TOTAL VERITCAL SPACE between them will be whatever the largest margin value is. For example if Box A is on top of Box C, and A has a bottom margin value of 10px and Box C has a top margin value of 30px, the vertical distance between the two elements would be 30px. This is MARGIN COLLAPSE.
+This refers to how overlapping vertical margin space works. **When there are two separate elements (boxes) next to each other (left and right) the margin space between the two boxes is sum of both elements margins.** So if `box-a` has a margin of 10px and `box-b` has a margin of 10px then the total horizontal space between them will be 20px.
 
+**However, if there are two elements next to each other vertically (top/bottom) then the *total vertical space* between them will be whatever the largest margin value is.** For example if `box-a` is on top of `box-c`, and A has a bottom margin value of 10px and C has a top margin value of 30px, the vertical distance between the two elements would be 30px. This is **margin collapse*.
 
-You can also set the min and max width elements because web pages can be viewed thru displays of differing screen sizes. 
-If the max height is set too low/small for the content, then the content will spill outside of the box.
+## Overflow
+	
+We can also set the min and max width of elements since web pages can be viewed thru displays of differing screen sizes. If the max height is set too low/small for the content, then the content will spill outside of the box.
 
+The `overflow` property is how we control when content spills outside of its box. Some of the values we can assign this property include:
+	
+- `hidden` hides content that spills outside of the box
+- `scroll` will add a scroll bar so that the rest of the content can be viewed by scrolling
+- `visible` will allow the content to be visible outside of the box. **This is the default option.**
 
-OVERFLOW is how we control when content spills outside of its box. By using the overflow property, we can assign a few values such as hidden, scroll, and visible.
-	-HIDDEN hides content that spills outside of the box
-	-SCROLL will add a scroll bar so that the rest of the content can be viewed by scrolling
-	-VISIBLE will allow the content to be visible outside of the box. This is the default option.
+## Resetting Defaults
 
-
-RESETTING DEFAULTS
-
-All major web browsers have default stylesheets the use in absence of an external one. These are known as USER AGENT STYLESHEETS, in this case the term "user agent" is a technical term for the browser.
+All major web browsers have default stylesheets the use in absence of an external one. These are known as *user agent stylesheets*, in this case the term "user agent" is a technical term for the browser.
 
 Because of these user agent stylesheets, sometimes they interfere with your work as a web developer. Many devs choose to reset these default values so they can work with a clean slate, we do this by creating the CSS rule
 
-* {margin: 0; padding: 0;}
+```* {margin: 0; padding: 0;}```
 
 This is often the first rule in an external stylesheet. Note that these values are set to 0 and not 0px, when these properties are set to 0 they do not require a unit of measurement.
 
+## Visibility
 
-VISIBILITY of elements can be controlled with the visiblity property. We can set the value to hidden, visible, and collapse - which are all kinda self explanatory.
+The visibility of elements can be controlled with the `visiblity` property. We can set the value to hidden, visible, and collapse
+- `hidden` Will hide the element
+- `visible` Will make the element visible. **this is the default value**
+- `collapse` Is only for table rows `<tr>`, row groups `<tbody>`, columns `<col>`, and column groups `<colgroup>`. This value removes a row or column, but it does not affect the table layout. The space taken up by the row or column will be available for other content. If `collapse` is used on other elements, it renders as "hidden"
 
-Note that even if the visiblity is set to hidden, users can still find it using inspect element and viewing the source code in their browser. Furthermore, the page will only hide the content, the space will still be reserved on the web page although it will be blank.
+**Note that even if the visiblity is set to hidden, users can still find it using inspect element and viewing the source code in their browser. Furthermore, the page will only hide the content, the space will still be reserved on the web page although it will be blank.**
 
 ____________________________________________________________________________________________________________________
 
