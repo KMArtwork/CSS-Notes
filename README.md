@@ -214,7 +214,7 @@ The property `font-size` is pretty self explanatory; set the value to a number v
 
 ## Font Weight 
 
-The property `font-weight` can be set to a few different values like `normal` or `bold` but can also be set to a numerical value starting at 100 and maxing at 900 in increments of 100.
+The property `font-weight` can be set to a few different values like `normal` or `bold` but can also be set to a numerical value starting at 1 and maxing at 1000, typically used in increments of 100.
 
 ```h1 {font-weight: bold;}```
 
@@ -372,26 +372,26 @@ The visibility of elements can be controlled with the `visiblity` property. We c
 ____________________________________________________________________________________________________________________
 
 
-CHANGING THE BOX MODEL
+# Changing the Box Model
 
-The box model does have an awkwardl imitartion regarding the box dimensions. If we have a box with a border of 1px, padding of 10px and a height & width of 200px by 300px, the height and width of the box are now 222px by 322px because of the 10px padding on either side and the 1px border as well. 
+The box model does have an awkward limitation regarding the box dimensions. If we have a box with a border of 1px, padding of 10px and a height & width of 200px by 300px, the height and width of the box are now 222px by 322px because of the 10px padding on either side and the 1px border as well. 
 
 To prevent this from happening, we can control the box-sizing property of the CSS rule. By default its value is content-box; this is affected by the previously mentioned problem.
 
 We can reset the entire box model and assign a new value: border-box
 
-* {box-sizing: border-box;}
+```* {box-sizing: border-box;}```
 
-Will set all boxes to be of the border-box value. This keeps the height and width at a fixed value and the border thickness and padding values will be included inside of the box, meaning no overall dimensions of the box will change.
+This will set all boxes to be of the border-box value. This keeps the height and width at a fixed value and the border thickness and padding values will be included inside of the box, meaning no overall dimensions of the box will change.
 
 ____________________________________________________________________________________________________________________
 
 
-BOX MODEL IN DEV TOOLS (INSPECT ELEMENT)
+# Box Model in Dev Tools (Inspect Element)
 
-Google chrome has a thing called DevTools that web devs can use to see the box around every element of a web page. This can be incredibly useful for developers to figure out where content begins and ends.
+Google Chrome has a thing called DevTools that web devs can use to see the box around every element of a web page. This can be incredibly useful for developers to figure out where content begins and ends.
 
-On windows we can use CTRL+SHIFT+I to open the dev tools. Alternatively we can use F12 or also clicking the 3 vertical dot menu>more tools>developer tools
+On windows we can use CTRL+SHIFT+I to open the dev tools. Alternatively we can use F12 or also clicking the 3 vertical dot menu > more tools > developer tools
 
 For example, open the DevTools, make sure elements is selected at the top, and in then click on Computed in the next section. This will show the element and when you hover over each part (content, padding, border, margin) it will be highlighted on the web page. If you know exactly what element you want to inspect, you can right click directly on the element in the webpage and click on Inspect Element and the DevTool will automatically take you to where that HTML code is located in the Inspect Element area.
 
@@ -399,169 +399,227 @@ You can also change the values by double clicking on the value in the Computed s
 
 
 When using DevTools to check/proof read a web page, we can quickly create a border around all elements using DevTools. First select the HTML declaration in the elements pane <html...>, then in the styles pane, click on the plus icon to add a new rule, and add the rule 
-* {border:1px solid red;}
+	
+```* {border:1px solid red;}```
+	
 Which will give every element a 1px red border that quickly helps you see the layout and content of a webpage.
 
 ____________________________________________________________________________________________________________________
 
 
-FLOW OF HTML by default, the HTML elements of a webpage will render from left to right, top to bottom, in the same order that they exist in the document. This is called FLOW.
+### Flow of HTML
+	
+By default, the HTML elements of a webpage will render from left to right, top to bottom, in the same order that they exist in the document. This is called *flow*.
 
+CSS not only controls how HTML elements are styled, but can also control where they are positioned. Properties such as `position`, `display`, `z-index`, `float`, and `clear` are some basic properties for adjusting positions of HTML elements in the browser.
 
-CSS not only controls how HTML elements are styled, but can also control where they are positioned.  Properties such as position, display, z-index, float, and clear are some basic properties for adjusting positions of HTML elements in the browser.
+## Position
 
+This property controls the default position of an element. It can have the value of `static`, `relative`, `absolute`, `fixed`, or `sticky`. **The default value is static.**
 
-POSITION property controls the default position of an element. It can have the value of static, relative, absolute, fixed, or sticky. Default value is static.
+`relative` places the element in a position that is *relative* to its default static position
 
-RELATIVE places the element in a position that is relative to its default static position
+If we declare the position value as relative, we still need to specify where the element should be positioned on the page. We do this by accompanying the position declaration with one or more of the *offset properties*, top, bottom, left, &/o right.
+	
+- `Top` moves the element down from the top
+- `Bottom` moves the element up from the bottom
+- `Left` moves the element away from the left side (towards the right)
+- `Right` mvoes the element away from the right side (towards the left)
+	
+These values can be set as `pixels`, `ems`, or `percentages`, among others. **These offset properties will not work if the value of the position property is static.**
 
-If we declare the position value as relative, we still need to specifiy where the element shoould be positioned on the page. We do this by accompanying the position declaration with one or more of the OFFSET PROPERTIES, top, bottom, left, &/o right.
-	-Top moves the element down from the top
-	-Bottom moves the element up from the bottom
-	-Left moves the element away from the left side (towards the right)
-	-Right mvoes the element away from the right side (towards the left)
-These values can be set as pixels, ems, or percentages, among others. These offset properties WILL NOT WORK if the value of the position property is static.
+`absolute` makes it so that all other elements on the page will ignore the element with the absolute position value and act as if it is not present on the page. The element will be positioned relative to its closest positioned parent element, while offset properties can be used to determine the final position from there. When an element is set to absolute, the element will scroll with the rest of the document when the user scrolls.
 
+`fixed` will fix the element to a specific position on the page regardless of user scrolling. Set the value to fixed and accompany it with offset properties. For example, if we give the <nav> box a fixed position property, then it will stay at the top of the screen even when the user scrolls down/up.
 
-ABSOLUTE makes it so that all other elements on the page will ignore the element with the absolute position value and act as if it is not present on the page. The element will be positioned relative to its closest positioned parent element, while offset properties can be used to determine the final position from there. When an element is set to absolute, the element will scroll with the rest of the document when the user scrolls.
+**Static and Relative keeps the element flowing with the rest of the document, while Absolute and Fixed prevent the element from flowing with the document.**
 
+`sticky` keeps an element flowing as the user scrolls but will STICK to a specified position as the page scrolls further.
 
-FIXED will fix the elemtn to a specific position on the page regardless of user scrolling. Set the value to fixed and accompany it with offset properties. For example, if we give the <nav> box a fixed position property, then it will stay at the top of the screen even when the user scrolls down/up.
-
-
-Static and Relative keeps the element flowing with the rest of the document, while Absolute and Fixed prevent the element from flowing with the document. 
-
-
-STICKY keeps an element flowing as the user scrolls but will STICK to a specified position as the page scrolls further.
-
-{...position:sticky; top: 240px;}
+```{...position:sticky; top: 240px;}```
 
 Will keep the position at 240px from the top until it reaches the its correct place in the parent element and then will "unstick"
 
 
-Z INDEX is how we order things from front to back. When elements overlap each other it can be difficult to read/consume, so we use z-index to determine which elements have priorty (i.e. when overlapped, which elements will appear "on top/in front" and which elements will appear "on bottom/behind" each other). The value is set with an integer and by default all elements have a value of 0. If one element has a z-index of 1, and the other has a z-index of 0, the element with the value of 1 will appear in front of the other element.
+## Z-Index
+
+This is how we order things from front to back. When elements overlap each other it can be difficult to read/consume, so we use `z-index` to determine which elements have priorty (i.e. when overlapped, which elements will appear "on top/in front" and which elements will appear "on bottom/behind" each other). The value is set with an integer and by default all elements have a value of 0. 
+	
+**If one element has a z-index of 1, and the other has a z-index of 0, the element with the value of 1 will appear in front of the other element.**
 
 
-INLINE DISPLAY
+## Inline Display
 
-Inline elements such as <em>, <strong> and <a> only take up as much space necessary to display their conent. The height and width cannot be specified in the CSS document. Inline elements have a box that wraps tightly around the content.
+Inline elements such as `<em>`, `<strong>` and `<a>` only take up as much space necessary to display their conent. The height and width cannot be specified in the CSS document. Inline elements have a box that wraps tightly around the content.
 
-By using the INLINE property on elements that are not inherently inline, we can apply the same style/effect to them.
+By using the `inline` property on elements that are not inherently inline, we can apply the same style/effect to them.
 
 h1 {display: inline;}
 
-The browser will render <h1> elements on the same line as other inline elements immediately before or after them (if there are any).
+The browser will render `<h1>` elements on the same line as other inline elements immediately before or after them (if there are any).
 
 
-BLOCK-LEVEL ELEMENTS are not displayed on the same line as the content around them. These elements fill the entire width of a page by default. but their width property can also be set. Unless otherwise specified, the height will automatically be set to whatever height is needed to fit the content.
+## Block-Level Elements
 
-Elements like heading elements <h1> - <h6>, <p>, <div>, and <footer> are all block level elements.
+These elements are not displayed on the same line as the content around them. These elements fill the entire width of a page by default, but their width property can also be set. Unless otherwise specified, the height will automatically be set to whatever height is needed to fit the content.
 
+Elements like heading elements `<h1> - <h6>`, `<p>`, `<div>`, and `<footer>` are all block level elements.
 
-INLINE-BLOCK elements combine feature of inline and block elements. THey can appear next to each other and we can specify their dimensions using the width & height properties. Images are the best example of default inline-block elements. If we have three separate <div class="rectangle"> ... </div> elements, by default they would render vertically. However if we use the CSS styling:
+## Inline-Block
 
-.rectangle {display: inline-block; width 200px; height 300px;} 
+These elements combine feature of inline and block elements. THey can appear next to each other and we can specify their dimensions using the width & height properties. Images are the best example of default inline-block elements. If we have three separate `<div class="rectangle"> ... </div>` elements, by default they would render vertically. However if we use the CSS styling:
+
+```.rectangle {display: inline-block; width 200px; height 300px;}```
 
 The boxes will be rendered inline (next to each other horizontally) with the set height and width values.
 
-(quick notes: INLINE elements appear next to each other/on the same line but CANNOT have their height and width properties set. BLOCK elements are not displayed on the same line and CAN have their width and height properties set. INLINE BLOCK allows elements to ahve their height and width properties set AND appear on the same line as teh other elements, provided they have neough space)
+- `inline` elements appear next to each other/on the same line but CANNOT have their height and width properties set. 
+- `block` elements are not displayed on the same line and CAN have their width and height properties set. 
+- `inline-block` elements have their height and width properties set AND appear on the same line as the other elements, provided they have enough space
 
 
-FLOAT can be used to most the elemtn as far left or as far right as possible in the container. As opposed to giving it an exact position using offset properties. Float is commonly used for wrapping text around an image, note however that moving elements left or right for layout purposes is better suited for tools like CSS gridbox and flexbox which well learn about later.
+## Float
 
-The float property is often set either using the value of left or right. This works for static or relative positioned elements. Floated elements MUST HAVE A WIDTH specified, otherwise the element will assume the full width of its containg element and changing the float value will not yield any visible results.
+The `float` property can be used to move the element as far left or as far right as possible in the container. As opposed to giving it an exact position using offset properties. `float` is commonly used for wrapping text around an image, note however that moving elements left or right for layout purposes is better suited for tools like CSS gridbox and flexbox.
 
-Float can be used to affect multiple elements at once, however when multiple elements are floated and htye have different hiehgts it can affect the layout of hte page. Specifically, elements can "bump" into each other and not allow other elements to properly move left or right.
+The `float` property is often set either using the value of `left` or `right`. This works for static or relative positioned elements. **Floated elements MUST HAVE A WIDTH specified**, otherwise the element will assume the full width of its containg element and changing the float value will not yield any visible results.
 
-CLEAR property specifies how elements should behave when they bump into each other on the page. The value can be left, right, both, or none.
-	-LEFT prevents the left side of the element from touching any other element within the same containing element.
-	-RIGHT prevents the right side of the element from touching
-	-BOTH prevents left and right side from touching other lemeents
-	-NONE the element CAN touch either side
+`float` can be used to affect multiple elements at once, however when multiple elements are floated and thye have different heights it can affect the layout of the page. Specifically, elements can "bump" into each other and not allow other elements to properly move left or right.
+
+## Clear
+
+This property specifies how elements should behave when they bump into each other on the page. The value can be left, right, both, or none.
+- `left` prevents the left side of the element from touching any other element within the same containing element.
+- `right` prevents the right side of the element from touching
+- `both` prevents left and right side from touching other lemeents
+- `none` the element CAN touch either side
 
 ____________________________________________________________________________________________________________________
 
 
-COLORS can be definied using keywords, RGB, or HSL, and also HEX color codes. We can change both the color (foreground) and background-color of an element.
+# Colors
+	
+These can be definied using keywords, RGB, or HSL, and also HEX color codes. We can change both the color (foreground) and background-color of an element.
 
-KEYWORDS use vaues like "red", "blue", "violet".
+## Keywords 
+	
+We can use keyword values like "red", "blue", "violet" to define the `color` property value.
+	
+```p {color: green};```
 
-RGB and HSL use 3 values to represent the Red Green and Blue or Hue Saturation and Lightness. 
-	-{color: rgb (23, 45, 23);
-		These numbers must be between 0 and 255.
-	-(color: hsl (255, 150, 100);
-		The first number HUE must be set between 0 and 360 which represents the angle on a color wheel.
-		The second number SATURATION must be between 0 and 100% and represents how intense/rich/vibrant the color is.
-		The last number is LIGHTNESS and must be between 0 and 50%. 50% is "normal", 0 is dark(black) and 100 is light(white).
+## RGB and HSL
+	
+These use 3 values to represent the Red Green and Blue or Hue Saturation and Lightness. 
 
-HEX color codes use a # symbol and a combination of 6 letters &/o numbers
-	-If a hex color code has triple repeaeting double characters, for example #BB44FF, it can be shortened down to #B4F
+```p {color: rgb (23, 45, 23);```
+	
+- These numbers must be between 0 and 255.
+	
+```p {color: hsl (255, 150, 100};```
+	
+- The first number HUE must be set between 0 and 360 which represents the angle on a color wheel.
+- The second number SATURATION must be between 0 and 100% and represents how intense/rich/vibrant the color is.
+- The last number is LIGHTNESS and must be between 0 and 50%. 50% is "normal", 0 is dark(black) and 100 is light(white).
 
+## HEX 
+	
+These are color codes that use a # symbol and a combination of 6 letters &/o numbers
+	
+```p {color: #FFFFFF};```
+	
+- If a hex color code has triple repeating double characters, for example #BB44FF, it can be shortened down to #B4F.
 
-
-OPACITY & ALPHA
+## Opacity and Alpha
 
 Colors can also have an opacity or alpha value. We can do this by using rgba or hsla instead of rgb or hsl. This means we also have to include a fourth value in the declaration which must be between 0 and 1.
 
 We can also add alpha values to hex color codes. If using a 6 digit hex code, add 2 extra digits at the end representing the percentage of opacity. These additional hex digits can range from 00 (transparent) to FF(opaque). Think about how alpha masks in photoshop work. Everything that is in black is masked out and everything that is in white is still visible. Therefore, when the hex alpha is 00, the value is "black" and the visibility is "0/fasle". When the hex alpha is FF, the value is "white" and the visiblity is "1/true".
 
 Alpha values cannot be applied to named colors, only RGB, HSL, or HEX color codes. However there is a named color keyword for 0 opacity, and that is "transparent" which is equivalent to rgba (0,0,0,0), and can be written like:
-{color:transparent;}
+	
+```p {color:transparent;}```
 
 ____________________________________________________________________________________________________________________
 
 
-TYPOGRAPHY
+# Typography
 
-FONT FAMILY can be set by using the font-family property.
-h1 {font-family: arial;}
+We can set the `font-family` property by typing
+	
+```h1 {font-family: arial;}```
 
-If the name of the font is multiple words, the font name must be encapsulated by quotes.
-h1 {font-family: 'Times New Roman';}
+However, if the name of the font is multiple words, the font name must be encapsulated by quotes.
+	
+```h1 {font-family: 'Times New Roman';}```
 
-WEB SAFE FONTS refer to the group of fonts that are widely used by major web browsers and are safe to use on web pages without having to worry about wether or not the font will show. If the webpage uses a non-web safe font, the font must be installed on the device that is viewing the web page.
+## Web Safe Fonts
+	
+This refers to the group of fonts that are widely used by major web browsers and are safe to use on web pages without having to worry about wether or not the font will show. If the webpage uses a *non-web safe font*, the font must be installed on the device that is viewing the web page.
 
 
-FALLBACK FONTS & FONT STACKS can be used as a way to create contingency plans for if certain text don't work.
-h1 {font-family: Caslon, Georgia, 'Times New Roman';}
+## Fallback Fonts & Font Stacks
 
-This is whats called a FONT STACK. The browser will first try to use Caslon, and if unable to do that will use Georgia, and then if unable to use that will use Times New Roman. It usually contains a list of similar-looking fonts. Each subsequent font after the first (Caslon) is a FALLBACK FONT.
+These can be used as a way to create contingency plans for if certain text don't work.
+	
+```h1 {font-family: Caslon, Georgia, 'Times New Roman';}```
 
-SERIF and SANS-SERIF refers to typefaces that have little tail thingies or not. SERIF refers to the little tail things and SANS-SERIF do not have it. Think of Times New Roman vs Arial. Serif fonts are typically used in print, like newspapers, while Sans Serif is typically used for digital media. 
+This is whats called a **font stack**. The browser will first try to use Caslon, and if unable to do that will use Georgia, and then if unable to use that will use Times New Roman. It usually contains a list of similar-looking fonts. Each subsequent font after the first (Caslon) is a **fallback font**.
 
-SERIF and SANS-SERIF are always keyword values that can be added as the final fallback font if nothing else in front of the stack are available.
-h1 {font-family: Caslon, Georgia, 'Times New Roman'; serif;}
+## Serif and Sans-Serif
+	
+This refers to two different styles of typefaces. **Serif** refers to the little tail things like you see on Times New Roman, and **Sans-Serif** refers to fonts that do not have it, like Arial. Serif fonts are typically used in print, like newspapers, while Sans Serif is typically used for digital media. 
+
+`serif` and `sans-serif` are also keyword values that can be added as the final fallback font if nothing else in front of the stack are available.
+
+```h1 {font-family: Caslon, Georgia, 'Times New Roman'; serif;}```
 
 In the above example, if any of the first 3 fonts arent available, the browser will use whatever serif font is available on the system.
 
+## Font Weight
 
-FONT WEIGHT property can be specified with either keywords of numerical values. Keywords are BOLD, NORMAL (default value), LIGHTER (one font weight lighter than elements parent value), or BOLDER (one font weight bolder than element's parent).
+The `font-weight` property can be specified with either keywords of numerical values. Keywords are BOLD, NORMAL (default value), LIGHTER (one font weight lighter than elements parent value), or BOLDER (one font weight bolder than element's parent).
 
 Numerical values can always be used from 1 to 1000, with 1 being the lightest and 1000 boldest. A weight of 400 is equal to normal, 700 is equal to bold. Its best practice to use increments of 100. Its important to knwo that not all fonts can be assigned numeric font weight, and not all numeric font weights are available to all fonts. Its best to look up the font and see what avaialbe font weight values are available.
 
+## Font Style
 
-FONT STYLE is a way to italicize text. By default the font-style is of a normal value.
-h1 {font-style: italic;}
+The `font-style` property is a way to italicize text. By default the font-style is of a normal value.
 
+```h1 {font-style: italic;}```
 
-TEXT TRANSFORMATION is a way to make the text either all uppercase or all lowercase.
-h1 {text-transform: uppercase;}
+## Text Transformation
 
+The `text-transform` property is a way to make the text either all uppercase or all lowercase.
+	
+```h1 {text-transform: uppercase;}```
 
-LETTER-SPACING is used to set the horizontal spacing between the individual characters in an element. Its not common to have to do this but sometimes it can be useful. This property cna take length values in units, such as 2px or 0.5em.
-p {letter-spacing: 2px;}
+## Letter Spacing
+	
+The property `letter-spacing` is used to set the horizontal spacing between the individual characters in an element. Its not common to have to do this but sometimes it can be useful. This property cna take length values in units, such as 2px or 0.5em.
+	
+```p {letter-spacing: 2px;}```
 
-WORD-SPACING works in a similar way and sets the horizontal spacing between each word. It takes values as units such as 3px or 0.5em;
-h1 {word-spacing: 2px;}
+## Word Spacing
 
-LINE HEIGHT can be specificed to set how tall we want each line containing our text to be. Line height can be a unitless number, such as 1.2 or a unit value such as 12px, 5%, or 2em. Typically, a unitless number such as 1.2 is preferable, because it is responsive based on current font size. In other words, if the line height value is 1.2, it will automatically adjust if the font size is changed.
-p {line-height: 14.}
+`word-spacing` works in a similar way and sets the horizontal spacing between each word. It takes values as units such as 3px or 0.5em;
 
-TEXT ALIGNMENT, aligns text to its parent element.
-p {text-align: justify;}
+```h1 {word-spacing: 2px;}```
 
+## Line Height
 
-WEB FONTS are different than web safe fonts. Web fonts allow you to to <link> a font from something like Google Fonts or Adobe Fonts, in your HTML documents. You can also used paid fonts from font distributors like fonts.com by downloading them and hosting them with the rest of your site's files. You can create a @font-face ruleset in your CSS stylesheet to link to the relative path of the font file.
+The `line-height` property can be specificed to set how tall we want each line containing our text to be. Line height can be a unitless number, such as 1.2 or a unit value such as 12px, 5%, or 2em. Typically, a unitless number such as 1.2 is preferable, because it is responsive based on current font size. In other words, if the line height value is 1.2, it will automatically adjust if the font size is changed.
+	
+```p {line-height: 14.}```
+
+## Text Alignment
+	
+The `text-align` property is used to align text to its parent element.
+
+```p {text-align: justify;}```
+
+## Web Fonts
+
+Web Fonts are different than web safe fonts. Web fonts allow you to to <link> a font from something like Google Fonts or Adobe Fonts, in your HTML documents. You can also used paid fonts from font distributors like fonts.com by downloading them and hosting them with the rest of your site's files. You can create a @font-face ruleset in your CSS stylesheet to link to the relative path of the font file.
 
 Both techniques allow you to go beyond the sometimes "traditional" apperance of web safe fonts.
 
@@ -573,16 +631,18 @@ When you download the font files to your computer, its a good idea to make sure 
 
 When you have all the files you need, move them to a folder inside your website's working directory and you're ready to use them in a @font-face ruleset, for example:
 
+```
 @font-face {
 	font-family: "MyParagraphFont";
 	src: url('fonts/Roboto.woff2') format('woff2'),
 	src: url('fonts/Roboto.woff') format('woff'),
 	src: url('fonts/Roboto.ttf') format('truetype'),
 }
+```
 
-It's recommended to define the @font-face ruleset at the top of your CSS stylesheet. When you use a downloaded font you can set the name of the font to a custome name, in the above exmaple it is "myparagraphfont". The src property contains 3 values, each specifiying the relative path to the font file and its format. The order of the different formats is important because our browswer will start at the top of the list and search until it finds a font format it supports. Once the @font-face rule is defined, you can use your custom named font on your style sheet, for example:
+It's recommended to define the @font-face ruleset at the top of your CSS stylesheet. When you use a downloaded font you can set the name of the font to a custom name, in the above exmaple it is "myparagraphfont". The src property contains 3 values, each specifiying the relative path to the font file and its format. The order of the different formats is important because our browswer will start at the top of the list and search until it finds a font format it supports. Once the @font-face rule is defined, you can use your custom named font on your style sheet, for example:
 
-p {font-family: "myparagraphfont", sans-serif;}
+```p {font-family: "myparagraphfont", sans-serif;}```
 
 ____________________________________________________________________________________________________________________
 
@@ -592,7 +652,7 @@ Previously, we learned about the box model of CSS display and the many tools and
 
 There are two important components to a flexbox layout: *flex containers* and *flex items*.
 
-**Flex Containers** 
+## Flex Containers 
 
 Flex containers are elements on a page that *contain* flex items. All direct child elements of a flex container are **flex items**. The distinction is important because there are some properties that apply to flex containers and some properties that apply to flex items.
 
@@ -621,7 +681,7 @@ div.container {
 }
 ```
 
-In the example above, all divs with the class container are flex containers. If they have children, the children are flex items. A div with the declaration display: flex; will remain block level â€” no other elements will appear on the same line as it. However, it will change the behavior of its child elements. Child elements will not begin on new lines.
+In the example above, all divs with the class container are flex containers. If they have children, the children are flex items. A div with the declaration `display: flex;` will remain block level and no other elements will appear on the same line as it. However, it will change the behavior of its child elements. Child elements will not begin on new lines.
 
 ## inline-flex
 
@@ -631,11 +691,11 @@ If we **did not** want div elements to be block-level elements, we would use `di
 
 ```
 <div class='container'>
-  <p>Iâ€™m inside of a flex container!</p>
-  <p>A flex containerâ€™s children are flex items!</p>
+  <p>I'm inside of a flex container!</p>
+  <p>A flex container's children are flex items!</p>
 </div>
 <div class='container'>
-  <p>Iâ€™m also a flex item!</p>
+  <p>I'm also a flex item!</p>
   <p>Me too!</p>
 </div>
 ```
@@ -672,7 +732,7 @@ If we declare `display: inline-flex`, the divs will display inline with each oth
   height: auto;
 }
 ```
-In the example above, the .child divs will take up more width (300 pixels) than the container div allows (200 pixels). The .child divs will shrink to accommodate the containerâ€™s size.
+In the example above, the .child divs will take up more width (300 pixels) than the container div allows (200 pixels). The .child divs will shrink to accommodate the container's size.
 
 ## justify-content
 
@@ -688,11 +748,11 @@ To position the items from left to right, we use a property called `justify-cont
 ```
 In the example above, we set the value of justify-content to flex-end. This will cause all of the flex items to shift to the right side of the flex container. Here are some commonly used values for the `justify-content` property:
 
-+ `flex-start` : all items to be positioned in order starting from the left of the parent container with no extra space between or before them
-+`flex-end` : all items will be positioned in order, with the last item starting on the right side of the parent container with no extra space between or before them.
-+`center` : all items will be positioned in order, in the center of the parent container, with no extra space before, between, or after them.
-+`space-around` : items will be positioned with equal space before and after each item, resulting in double the space between elements
-+`space-between` : items will be positioned with equal space between them, but no extra space ebfore the first or after the last elements.
+- `flex-start` : all items to be positioned in order starting from the left of the parent container with no extra space between or before them
+- `flex-end` : all items will be positioned in order, with the last item starting on the right side of the parent container with no extra space between or before them.
+- `center` : all items will be positioned in order, in the center of the parent container, with no extra space before, between, or after them.
+- `space-around` : items will be positioned with equal space before and after each item, resulting in double the space between elements
+- `space-between` : items will be positioned with equal space between them, but no extra space ebfore the first or after the last elements.
 
 "No extra space" meaning that margins and borders will be respected, but no more space (than what is specified in the style rules for the particular element) will be added between elements. The size of each individual flex item is not changed by this property.
 
@@ -707,15 +767,15 @@ It is possible to align flex items vertically within the container with the `ali
 ```
 In the example above, the align-items property is set to baseline. This means that the baseline of the content of each item will be aligned. Below are some common values used for the `align-items` property:
 
-+``flex-start`` : all elements will be positioned at the top of the parent container.
-+``flex-end`` : all elements will be positioned at the bottom of the parent container.
-+``center`` : the center of all elements will be positioned halfway between the top and bottom of the parent container.
-+``baseline`` : the bottom of the content of all items will be aligned with each other.
-+``stretch`` : if possible, the items will stretch from top to bottom of the container (this is the default value; elements with a specified height will not stretch; elements with a minimum height or no height specified will stretch).
+- `flex-start` : all elements will be positioned at the top of the parent container.
+- `flex-end` : all elements will be positioned at the bottom of the parent container.
+- `center` : the center of all elements will be positioned halfway between the top and bottom of the parent container.
+- `baseline` : the bottom of the content of all items will be aligned with each other.
+- `stretch` : if possible, the items will stretch from top to bottom of the container (this is the default value; elements with a specified height will not stretch; elements with a minimum height or no height specified will stretch).
 
 These values tell the elements how to behave along the *cross axis* of the parent container, which stretches from top to bottom.
 
-You might be unfamiliar with the min-height and max-height properties, but you have used height and width before. min-height, max-height, min-width, and max-width are properties that ensure an element is at least a certain size or at most a certain size, but we will cover that a bit further ahead.
+You might be unfamiliar with the `min-height` and `max-height` properties, but you have used `height` and `width` before. `min-height`, `max-height`, `min-width`, and `max-width` are properties that ensure an element is at least a certain size or at most a certain size, but we will cover that a bit further ahead.
 
 ## flex-grow
 
@@ -833,7 +893,7 @@ In the previous two exercises, the dimensions of the divs were determined by hei
 
 We can use the `flex` *property* to provide a convenient and simple way to specify the `flex-grow`, `flex-shrink`, and `flex-basis` properties in one line.
 
-Note that the `flex` *property* is different than the `flex` *value* used for the `display` property
+**Note that the `flex` *property* is different than the `flex` *value* used for the `display` property**
 
 ```
 .big {
@@ -865,17 +925,15 @@ We can also declare a value for grow and basis by writing:
 }
 ```
 
-Note that there **is no way** to set shrink and basis using 2 values.
+**Note that there *is no way* to set shrink and basis using 2 values.**
 
 ## flex-wrap
 
-Sometimes, we donâ€™t want our content to shrink to fit its container. Instead, we might want flex items to move to the next line when necessary. This can be declared with the `flex-wrap` property. The `flex-wrap` property can accept three values:
+Sometimes, we don't want our content to shrink to fit its container. Instead, we might want flex items to move to the next line when necessary. This can be declared with the `flex-wrap` property. The `flex-wrap` property can accept three values:
 
-1. `wrap` â€” child elements of a flex container that donâ€™t fit into a row will move down to the next line
-
-2. `wrap-reverse` â€” the same functionality as `wrap`, but the order of rows within a flex container is reversed (for example, in a 2-row flexbox, the first row from a `wrap` container will become the second in `wrap-reverse` and the second row from the wrap container will become the first in `wrap-reverse`)
-
-3. `nowrap` â€” prevents items from wrapping; this is the default value and is only necessary to override a wrap value set by a different CSS rule.
+- `wrap` child elements of a flex container that don't fit into a row will move down to the next line
+- `wrap-reverse` has the same functionality as `wrap`, but the order of rows within a flex container is reversed (for example, in a 2-row flexbox, the first row from a `wrap` container will become the second in `wrap-reverse` and the second row from the wrap container will become the first in `wrap-reverse`)
+- `nowrap` prevents items from wrapping; this is the default value and is only necessary to override a wrap value set by a different CSS rule.
 
 ```
 <div class='container'>
@@ -913,12 +971,12 @@ Now that elements can wrap to the next line, we might have multiple rows of flex
 
 Here are some commonly used `align-content` values:
 
-+`flex-start` : all rows of elements will be positioned at the top of the parent container with no extra space between.
-+`flex-end` : all rows of elements will be positioned at the bottom of the parent container with no extra space between.
-+`center` : all rows of elements will be positioned at the center of the parent element with no extra space between.
-+`space-between` : all rows of elements will be spaced evenly from the top to the bottom of the container with no space above the first or below the last.
-+`space-around` : all rows of elements will be spaced evenly from the top to the bottom of the container with the same amount of space at the top and bottom and between each element.
-+`stretch` : if a minimum height or no height is specified, the rows of elements will stretch to fill the parent container from top to bottom (default value).
+- `flex-start` : all rows of elements will be positioned at the top of the parent container with no extra space between.
+- `flex-end` : all rows of elements will be positioned at the bottom of the parent container with no extra space between.
+- `center` : all rows of elements will be positioned at the center of the parent element with no extra space between.
+- `space-between` : all rows of elements will be spaced evenly from the top to the bottom of the container with no space above the first or below the last.
+- `space-around` : all rows of elements will be spaced evenly from the top to the bottom of the container with the same amount of space at the top and bottom and between each element.
+- `stretch` : if a minimum height or no height is specified, the rows of elements will stretch to fill the parent container from top to bottom (default value).
 
 ```
 <div class='container'>
@@ -1001,13 +1059,13 @@ Remember that because these divs are now on the cross axis, properties like `jus
 
 `flex-direction` can accept four values:
 
-+ row : elements will be positioned from left to right across the parent element starting from the top left corner (default).
+- `row` : elements will be positioned from left to right across the parent element starting from the top left corner (default).
 
-+row-reverse : elements will be positioned from right to left across the parent element starting from the top right corner.
+- `row-reverse` : elements will be positioned from right to left across the parent element starting from the top right corner.
 
-+column : elements will be positioned from top to bottom of the parent element starting from the top left corner.
+- `column` : elements will be positioned from top to bottom of the parent element starting from the top left corner.
 
-+column-reverse : elements will be positioned from the bottom to the top of the parent element starting from the bottom left corner.
+- `column-reverse` : elements will be positioned from the bottom to the top of the parent element starting from the bottom left corner.
 
 Remember that the `flex-direction` property is declared on **flex containers**
 
@@ -1091,4 +1149,4 @@ Flexbox is a versatile tool to help position your elements in a more fluid and *
 10. `align-content` is used to space multiple rows along the cross axis.
 11. `flex-direction` is used to specify the main and cross axes.
 12. `flex-flow` is used to specify `flex-wrap` and `flex-direction` in one declaration.
-13.Flex containers can be nested inside of each other by declaring `display: flex` or `display: inline-flex` for children of flex containers.
+13. Flex containers can be nested inside of each other by declaring `display: flex` or `display: inline-flex` for children of flex containers.
