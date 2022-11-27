@@ -127,7 +127,7 @@ CSS also has its own classes and IDs that serve their own purposes.
 	
 *Classes* are meant to be reused over many elements.
 
-For example, you have 2 different <h1> elements. One needs to be bold and blue, the other needs to be bold and red. Instead of writing 2 seperate rules in the CSS document for each <h1> element, you could write a .green, .blue, and .bold rule in CSS. Then give one headline class="bold green" and the other class="bold blue".
+For example, you have 2 different `<h1>` elements. One needs to be bold and blue, the other needs to be bold and red. Instead of writing 2 seperate rules in the CSS document for each `<h1>` element, you could write a .green, .blue, and .bold rule in CSS. Then give one headline `class="bold green"` and the other `class="bold blue"`.
 
 *IDs* are meant to style one specific element. **They override the styles of classes and should be used sparringly to spare yourself the headache.**
 
@@ -179,8 +179,7 @@ Instead of writing
 
 ```
 h1 {font-family:Georgia} 
-
-.menu {font-family:Georgia}
+.menu {font-family:Georgia}	
 ```
 
 We could write 
