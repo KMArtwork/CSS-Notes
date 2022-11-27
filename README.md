@@ -24,13 +24,13 @@ The **declaration** is the name for the *property and value pairs* which style t
 
 ## Inline Style & Inline Stylesheets
 
-> <p style='color:blue;'>Hello, World!</p>
+``` <p style='color:blue;'>Hello, World!</p> ```
 
 Inline style is what we call it when we write our CSS styling directly in the HTML document. Above, there is the `<p>` *opening tag* followed by the `style` *attribute* and then the *declaration* of the property/value pair `color:blue`.
 
 If we want to add multiple style attributes to an HTML element we can keep on by separating each property/value pair with a semicolon.
 
-> <p style='color:blue; font-size: 16px;'>Lorem Ipsum</p>
+``` <p style='color:blue; font-size: 16px;'>Lorem Ipsum</p> ```
 
 **Most of the time inline styling is not used but every now and then its needed so its good to know about.**
 
@@ -51,7 +51,7 @@ We do this by using the `<link>` element which must be placed inside the `<head>
 	
 `rel` describes the relationship betwen the HTML and the CSS. i.e. if we are linking a stylesheet, the value should be "stylesheet"
 
-> <link href="path-goes-here.css" rel="stylesheet"/>
+``` <link href="path-goes-here.css" rel="stylesheet"/> ```
 
 
 ## Selectors
@@ -65,15 +65,15 @@ The asterisk `*` can be used as a *universal selector* to select elements of any
 
 HTML tags also have attributes that can be targeted and styled. For example if we had 
 
-> <p class="brand">Shoe Company</p>
+``` <p class="brand">Shoe Company</p> ```
 
 We could target the class attribute by writing our CSS as follows
 
-> .brand {color:teal;}
+``` .brand {color:teal;} ```
 
 If we want to assign *multiple class* attribute values to a HTML element we can just do so by seperating each class value with a space i.e. 
 
-<p class="brand title">Shoe Company</p>
+``` <p class="brand title">Shoe Company</p> ```
 
 
 ## Targeting IDs
@@ -82,41 +82,41 @@ But what if we want to target one single specific HTML element with CSS? We can 
 
 When we target something using the id, the CSS must be prepended by a `#`, i.e.
 
-> <h1 id="first-title">First Title</h1>
+``` <h1 id="first-title">First Title</h1> ```
 
 would be targeted by using the CSS
 
-> #first-title {color:red;}
+``` #first-title {color:red;} ```
 
 
 ## Attribute Selector
 
 We can also target HTML elements by their attribute, for example making all links (aka. href) a certain color or font size. Attributes can targeted by putting the attribute name, or the selector, in between two square brackets `[ ]`.
 
-> [href] {color:magenta;} 
+``` [href] {color:magenta;} ```
 
 We can get even more specific by using the syntax
 
-> type[attribute*=value]
+``` type[attribute*=value] ```
 
 Which selects any element that contains an instance of the value.
 
 For instance, if we had multiple images on our webpage, we could set anchors with hyperlink references that end in .com to be one color and any that end in .gov as a different color. You could also target specific words
 
-> a[href*='.com'] {color:green;}
+``` a[href*='.com'] {color:green;} ```
 
-> a[href*='.gov'] {color:red;}
+``` a[href*='.gov'] {color:red;} ```
 
 
 ## Psuedo-Class
 
 We use pseudo-classes for things like greying out the submit button before all the forms are filled in, or changing a link from blue to purple once its been clicked on. They can be attached to any selector and is always written as a colon followed by a name. For example:
 
-> p:hover {background-color:lime;}
+``` p:hover {background-color:lime;} ```
 
 Syntax: 
 
-> selector:pseudo-class {property:value;}
+``` selector:pseudo-class {property:value;} ```
 
 
 ## Classes and IDs
@@ -147,11 +147,11 @@ When writing CSS rules, you may require an HTML element to have two or more CSS 
 
 for instance if we had multiple <h1> elements but one or more of them had had the `class` attribute with the `special` value, i.e.
 
-> <h1 class='special'>
+``` <h1 class='special'> ```
 
 Then, in CSS, we would write
 
-> h1.special { ... }
+``` h1.special { ... } ```
 
 And this would *only* target the HTML elements of <h1> with the class "special". If a <p> paragraph element also had a class of "special" the rule would NOT apply.
 
@@ -162,11 +162,11 @@ This is how we target HTML elements that are nested inside of other HTML element
 
 If we have an ordered list `<ol class="main-list">` parent with list item `<li>` children, we can target the list items by writing in CSS:
 
-> .main-list li { ... }
+``` .main-list li { ... } ```
 
 Note that the `.` before main-list is necessary if we are targeting a class. If we were to be targeting a whole element nested inside of another element we could type:
 
-> li h4 { ... }
+``` li h4 { ... } ```
 
 This would select any <h4> elements that were nested inside of a list item `<li>`
 
@@ -185,7 +185,7 @@ h1 {font-family:Georgia}
 
 We could write 
 
-> h1, .menu {font-family:Georgia;}
+``` h1, .menu {font-family:Georgia;} ```
 
 ____________________________________________________________________________________________________________________
 
