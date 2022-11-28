@@ -1153,7 +1153,7 @@ Flexbox is a versatile tool to help position your elements in a more fluid and *
 
 ____________________________________________________________________________________________________________________
 	
-# Grids
+# Basic CSS Grid
 
 CSS has many tools to elegantly lay out elements of a web page. There is no simple answer or no correct way to do this, it all depends on the content you are trying to display, and just like anything in programming there are always multiple different techniques to solve a problem.
 
@@ -1350,3 +1350,169 @@ We can also use the `grid-area` property as a shorthand for `grid-column-start`,
 ```
 
 The first value is the row start, the second value is the column start, the third value is the row end, and the fourth value is the column end.
+____________________________________________________________________________________________________________________
+	
+# Advanced CSS Grid	
+	
+## Grid Template Areas
+
+The `grid-template-areas` property allows you to name sections of your web page that you can use as values in the `grid-row-start`, `grid-row-end`, `grid-column-start`, `grid-column-end`, and `grid-area` properties. 
+
+**This property is declared on grid containers**
+
+```
+grid-template-areas: "head head"
+                       "nav nav" 
+                       "info services"
+                       "footer footer";
+```
+
+- This tells us that the area name "head" will take the space of row 1, column 1 and row 1, column 2
+- The area named "nav" will do the same and take the space of row 2, column 1 and row 1, column 2.
+- This next part tells us that "info" will take up row 3, column 1 and "services" will take up row 2, column 2.
+- This part tells us "footer" will take up the space of row 4, column 1 and row 4, coulmn 2.
+
+## Overlapping Elements
+
+Another powerful feature of CSS Grid Layout is the ability to easily overlap elements. When we overlap elements, it is generally easiest to use the `grid-area` property with grid row names. 
+
+```
+.container {
+  display: grid;
+  grid-template: repeat(8, 200px) / repeat(6, 100px);
+}
+ 
+.info {
+  grid-area: 1 / 1 / 9 / 4;
+}
+ 
+.services {
+  grid-area: 1 / 4 / 9 / 7;
+}
+ 
+img {
+  grid-area: 2 / 3 / 5 / 5;
+  z-index: 5;
+}
+```
+We can see in the following code that the `img` will overlap (i.e. exist in the same rows & columns) both the `.info` and `.services` elements of our web page. 
+
+By using the `z-index` property we can designate that it will render in front of both the `.info` and `.services` elements.
+
+## Justify Items
+
+We have mentioned "two-dimensional grid-based layouts" a few times. This means that there are 2 axes in our grid layout, the horizontal/row axis and vertical/column axis otherwise known as the block axis and the inline axis.
+
+The `justify-items` property allows us to position grid items along the inline, or row, axis. This means that it positions items from left to right across the web page.
+
+**This property is declared on grid containers** and accepts values such as:
+
+- `start` which aligns grid items to the left side of the grid area
+- `end` which aligns grid items to the right side of the grid area
+- `center` which aligns grid items to the center of the grid area
+- `stretch` which stretches all items to fill the grid area
+
+There are several other values that can be used for the `justify-items` property that you can find more information about in the [documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-items#Values).It is important to note that the page with the definitions includes some values that are not accepted in CSS Grid layout.
+
+## Justify Content
+
+If `justify-items` is how we position *grid items* within their columns along the inline axis, then we can use `justify-content` to position *the entire grid* along the inline axis.
+
+**This property is declared on grid containers** and accepts these values:
+
+- `start` aligns the grid to the left side of the grid container
+- `end` aligns the grid to the right side of the grid container
+- `center` centers the grid horizontally in the grid container
+- `stretch` stretches the grid items to increase the size of the grid to expand horizontally across the container
+- `space-around` includes an equal amount of space on each side of the grid element. There will be half as much spafe before the first element and after the last element as there is between elements.
+- `space-between` includes an equal amount of space between grid items with no space at either end
+- `space-evenly` places an even amount of space between grid items and either ends
+
+Just as before, there are other values we can use for this property which can be found in the [documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content#Values) however some of these values will not be accepted in CSS Grid Layout.
+
+## Align Items
+
+We can use the `align-items` property to position grid items along the horizontal, or block, axis. **This property is declared on grid containers** and accepts these values:
+
+- `start`
+- `end`
+- `center`
+- `stretch`
+
+Consult the [documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-items#Values) for other accepted values and remember that not all values in the documentation will be accepted in CSS Grid Layout.
+
+## Align Content
+
+Just like we learned the difference between `justify-content` and `justify-items`, the same goes for `align-items` and `align-content`. The `align-content` property positions the rows along the horizontal axis and is **declared on grid containers**. It accepts the values
+
+- `start`
+- `end`
+- `center`
+- `stretch`
+- `space-around`
+- `space-between`
+- `space-evenly`
+
+Here is the [documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/align-content#Values) and remember not all values are accepted in CSS Grid Layout.
+
+## Justify Self and Align Self
+
+`justify-items` and `align-items` specify how *all grid items* in a container will position themselves. The `justify-self` and `align-self` properties control how *individual grid items* will position themselves.These properties override the `justify-items` and `align-items` properties.  **These properties are declared on the grid items themselves NOT the grid container** and accept these values:
+
+- `start`
+- `end`
+- `center`
+- `stretch` 
+
+## Implicit vs. Explicit Grid
+
+So far, we have been *explicitly* defining the dimensions and quantities of our grid elements. This works well in many cases like a landing page for a business that will always display specific information at all times.
+
+However, there are instances when we don't know how much information is going to be displayed. For example, consider online shopping; Often these web pages include an option to display x-amount of items per page but then also offer the ability to can display *all* items on a single page. When displaying all items on one page, the web developer cannot know in advance how many elements will be in the search results.
+
+What about if the developer has specified a 3-column, 5-row grid (total 15 items) but the search results return 30?
+
+This is where *implicit* grids take over; This determines the default behavior for the placement of elements when there are more than will fit into the grid specified by the CSS.
+
+By default, the implic grid works as follows: Items will fill up exisitng rows first and then add new rows as necessary. New grid rows will only be tall enough to contain the content within them.
+
+## Grid Auto Rows and Grid Auto Columns
+
+CSS Grid provides two properties to specify the size of grid tracks added implicitly: `grid-auto-rows` and `grid-auto-columns`. **These properties are declared on grid containers**.
+
+`grid-auto-rows` specifies the *height* of implicitly added grid rows and `grid-auto-columns` specify the *width* of implicitly added grid columns. They accept the same values as their grid-template counterparts:
+
+- `px` pixels
+- `%` percentages
+- `fr` fractions
+- `repeat()` repeat function
+
+If we do not specify `grid-auto-rows` in our ruleset(s) the rows would be auto adjusted to the height of the content of the grid items.
+
+## Grid Auto Flow
+
+In addition to setting the dimensions for implicilty-added rows and columns, we can also specify the order in which they are rendered.
+
+`grid auto flow` deisgnates whether new elements should be added to rows or columns. **This property is declared on grid containers** and accepts these values:
+
+- `row` new elements will fill rows from left to right and create new rows when there are too many elements in a given row
+- `column` new elements should fill columns from top to bottom and create new columns where there are too many elements in a given column
+- `dense` this keyword invokes an algorithm that attempts to fill holes earlier in the grid layout if smaller elements are added.
+
+We can also pair these values like this: `grid-auto-flow: row dense`.
+
+## Summary
+
+- `grid` template-areas specifies grid named grid areas
+- grid layouts are two-dimensional: they have a row, or inline, axis and a column, or block, axis.
+- `justify-items` specifies how individual elements should spread across the row axis
+- `justify-content` specifies how groups of elements should spread across the row axis
+- `justify-self` specifies how a single element should position itself with respect to the row axis
+- `align-items` specifies how individual elements should spread across the column axis
+- `align-content` specifies how groups of elements should spread across the column axis
+- `align-self` specifies how a single element should position itself with respect to the column axis
+- `grid-auto-rows` specifies the height of rows added implicitly to the grid
+- `grid-auto-columns` specifies the width of columns added implicitly to the grid
+- `grid-auto-flow` specifies in which direction implicit elements should be created
+	
+____________________________________________________________________________________________________________________
