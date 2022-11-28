@@ -1516,3 +1516,145 @@ We can also pair these values like this: `grid-auto-flow: row dense`.
 - `grid-auto-flow` specifies in which direction implicit elements should be created
 	
 ____________________________________________________________________________________________________________________
+
+# Sizing Elements - Responsive Design
+
+## Relative Measurements
+
+We can view webpages with many different devices: phones, desktop monitors, tablets, etc. and every device has different screen sizes. As web developers, how do we ensure that the content on a webpage can be viewed in a readable and visually appealing way across all devices, regardless of screen size?
+
+*Responsive design* refers to the ability of a website to resize and reorganize its content based on:
+
+1. The size of the other content on the website
+2. The size of the screen the website is being viewed on
+
+When we size content with `pixels` we are giving the element *exact* dimensions, meaning that it will always be the designated size. If the screen size were to change, like switching from landscape to portrait mode on a phone, elements with a fixed size may appear too small, overflow the screen, or become completel illegible.
+
+We can avoid hard coded exact measurements and use *relative measurements* instead to solve these problems. This allows content to remain in proportion regardless of screen size and layout.
+
+## Em
+
+One unit of measurement we can use instead of `pixels` is `em`. 
+
+`em` represents the font size of the current element or the default base font size set by a browswer if none is given. For example, if the base font of a browser is 16px, then `1em` is equal to 16px. `2m` would be equal to 32px, and so on. 
+
+## Rem
+
+`rem` stands for *root em* and acts similar to em but instead of checking the *parent element's* font size, it checks the *root element*. The root element is the `<html>` tag.
+
+Most browswers set the font size of the `<html>` to 16px, so by default rem measurements will be comapred to that value. If we want to set the root element font size to a different value, we need to create a ruleset in our css stylesheet.
+
+```
+html {font-size: 20px}
+```
+
+Now, if we set any future font-size to something like `2rem` or `5rem` the elements would be 40px and 100px, respectively.
+
+One advantage of using rems is that all elements are compared to the same font size value, making it easy to predict how large or small font will appear. If you are interested in sizing elements consistently across an entire website, the rem measurement is the best unit for the job. If you’re interested in sizing elements in comparison to other elements nearby, then the em unit would be better suited for the job.
+
+## Percentages: Height & Width
+
+To size non-text HTML elements relative to their parent elements on the page we can use *percentages*.
+
+Percentages are often used to size box-model values, like width, height, padding, border, and margins. They can also be used to set position properties (top, bottom, left, right).
+
+```
+.main {
+  height: 300px;
+  width: 500px;
+}
+ 
+.main .subsection {
+  height: 50%;
+  width: 50%;
+}
+```
+When percentages are used, elements are sized relative to the dimensions of their parent element, (read: container). Therefore, the dimensions of the `.subsection` div above will be 150px tall and 250px wide. Be careful, a child element’s dimensions may be set erroneously if the dimensions of its parent element aren’t set first.
+
+Because the box model includes padding, borders, and margins, setting an element’s `width` to `100%` may cause content to overflow its parent container. While tempting, `100%` should only be used when content will not have padding, border, or margin.
+
+## Percentages: Padding and Margin
+
+Percentages can also be used to set the padding and margin of elements.
+
+When height and width are set using percentages, you learned that the dimensions of child elements are calculated based on the dimensions of the parent element.
+
+When percentages are used to set padding and margin, however, they are calculated based only on the *width* of the parent element.
+
+Vertical padding and margin are also calculated based on the width of the parent. Why? Consider the following scenario:
+
+1. A container div is defined, but its height is not set (meaning it’s flat).
+
+2. The container then has a child element added within. The child element does have a set height. This causes the height of its parent container to stretch to that height.
+
+3. The child element requires a change, and its height is modified. This causes the parent container’s height to also stretch to the new height. This cycle occurs endlessly whenever the child element’s height is changed!
+
+In the scenario above, an unset height (the parent’s) results in a constantly changing height due to changes to the child element. This is why vertical padding and margin are based on the width of the parent, and not the height.
+
+Note: When using relative sizing, ems and rems should be used to size text and dimensions on the page related to text size (i.e. padding around text). This creates a consistent layout based on text size. Otherwise, percentages should be used.
+
+## Width: Minimum & Maximum
+
+Sometimes elements can lose their integrity when they become too small or too large. We can use the `min-width` and `max-width` properties to circumvent this problem.
+
+We can use pixel values with these properties to ensure hard limits on the dimensions of the elements.
+
+## Height: Minimum & Maximum
+
+Similarly to the above section, we can also set the `min-height` and `max-height` properties as well.
+
+If we set the `max-height` property too low for an element, its possible that the content will overflow outside of the element resulting in illegible content.
+
+## Scaling Images and Videos
+
+Websites often contain media, like images and videos, and its important to make sure that these are scaled proportionally so that users can view it correctly.
+
+```
+.container {
+  width: 50%;
+  height: 200px;
+  overflow: hidden;
+}
+ 
+.container img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+```
+In this example, the `.container` represents a container div. Setting the `overflow` property to `hidden` ensures that any content with dimensions larger than the container will be hidden from view.
+
+The second ruleset ensures that images scale with the width of the container. The `height` property is set to `auto`, meaning that an image's height will *automatically* scale proportionally with the width.
+
+**It’s worth memorizing the entire example above. It represents a very common design pattern used to scale images and videos proportionally.**
+
+The example above scales the width of an image (or video) to the width of a container. If the image is larger than the container, the vertical portion of the image will overflow and will not display. To swap this behavior, you can set `max-height` to `100%` and `width` to `auto` (essentially swapping the values). This will scale the *height* of the image with the height of the container instead. If the image is larger than the container, the horizontal portion of the image will overflow and not display.
+
+## Scaling Background Images
+
+We can also responsively scale background images of HTML elements.
+
+```
+body {
+  background-image: url('#');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+```
+In the example above, the image will *cover* the entire background of the element while keeping the image in proportion. If the dimensions of the image exceed the dimensions of the container, then only a portion of the image will display.
+
+## Summary
+
+- Content on a website can be sized relative to other elements on the page using *relative measurements*.
+- The unit of `em` sizes font relative to the font size of a parent element.
+- The unit of `rem` sizes font relative to the font size of a root element. That root element is the `<html>` element.
+- Percentages are commonly used to size box-model features, like the width, height, padding, or margin of an element.
+When percentages are used to size width and height, child elements will be sized relative to the dimensions of their parent (remember that parent dimensions must first be set).
+- Percentages can be used to set padding and margin. Horizontal and vertical padding and margin are set relative to the width of a parent element.
+- The minimum and maximum width of elements can be set using `min-width` and `max-width`.
+- The minimum and maximum height of elements can be set using `min-height` and `max-height`.
+- When the height of an image or video is set, then its width can be set to `auto` so that the media scales proportionally. Reversing these two properties and values will also achieve the same result.
+- A background image of an HTML element will scale proportionally when its `background-size` property is set to `cover`.
+____________________________________________________________________________________________________________________
+	
