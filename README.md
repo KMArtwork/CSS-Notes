@@ -1658,3 +1658,161 @@ When percentages are used to size width and height, child elements will be sized
 - A background image of an HTML element will scale proportionally when its `background-size` property is set to `cover`.
 ____________________________________________________________________________________________________________________
 	
+# Responsive Web Design - Media Queries
+
+Like we mentioned earlier, because websites can be viewed on various devices with their own resolutions/screen sizes its important that websites are able to resize and reorganize their content to best fit screens of any size.
+
+When they dont, the content may look odd or become indecipherable. When a website responds to the size of the screen its viewed on, it's called a *responsive* website.
+
+This means that they are able to respond in a change in screen size and adapt the content so that users can access it.
+
+## Viewport Meta Tag
+
+We've covered how to create responsive web designs with CSS, however in order to enable this responsive CSS to work we need to be familiar with the HTML viewport meta tag.
+
+The *viewport* is the total viewable area for a user which varies depending on the device.
+
+Based on the viewport, the `<meta>` tag is used to instruct the browser on how to render the webpage's scale and dimensions. For example, say a web page is 960px wide but the device screen is only 320px wide. When we add the `<meta>` tag to the HTML, the webpage will squish the content down until it is 320px.
+
+We place the `<meta>` tag inside of the HTML `<head>` element.
+
+```
+<!DOCTYPE html> 
+<html lang="en"> 
+  <head> 
+    ...
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    ...
+  </head> 
+```
+
+- `name="viewport"` tells the browser to display the wbe page at the same width as its screen.
+
+- `content` defines the values for the `<meta>` tag including `width` and `initial-scale`.
+
+- `width=device-width` is a key-value pair that controls the size of the viewport; it sets the width of the viewport to equal the width of the device.
+
+- `initial-scale=1` sets the inital zoom level
+
+## Media Queries
+
+CSS uses *media queries* to adapt a website's content to different screen sizes by detecting the size of the current screen and applying different CSS styles depending on the width of the screen.
+
+```
+@media only screen and (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+}
+```
+The example above defines a rule for screens smaller than 480px which is approximately the width of many smartphones in landscape orientations.
+
+- `@media` this keyword begins a media query rule and instructs the CSS compiler on how to parse the rest of the rule
+
+- `only screen` indicates what types of devices should use this rule. `screen` is the media type always used for displaying content, no matter the type of device. The `only` keyword is added to indicate that this rule only applies to one media type: `screen`.
+
+- `and (max-width : 480px) is known as the *media feature* and instructs the CSS compiler to apply the CSS style to devices with a width of 480px or smaller. *Media features* are the conditions that must be met in order to render the CSS within a media query.
+
+- The CSS rules that we nest inside of the media query's curly braces tell the compiler how to style the content when the query has been met. In the example above, the font size will be set to 12px if the screen is 480px or smaller.
+
+## Range
+
+We can target specific screen sizes with multiple height and width media features. `min-width`, `max-width`, `min-height`, and `max-height` can be used in this case.
+
+```
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+    /* ruleset for 320px - 480px */
+}
+```
+
+The example above would only apply its CSS rules when a screen's width is between 320px and 480px. Also notice that we can chain the requirements together using multiple `and` keywords.
+
+We can also separate them into two individual rulesets:
+
+```
+@media only screen and (min-width: 320px) { 
+    /* ruleset for >= 320px */
+}
+ 
+ 
+@media only screen and (min-width: 480px) { 
+    /* ruleset for >= 480px */
+}
+```
+The first media query in the example above will apply CSS rules when the size of the screen meets or exceeds 320 pixels. The second media query will then apply CSS rules when the size of the screen meets or exceeds 480 pixels, meaning that it can override CSS rules present in the first media query or apply additional CSS rules that are not already present in the first.
+
+Both examples above are valid, and it is likely that you will see both patterns used when reading another developer’s code.
+
+## Dots Per Inch (DPI)
+
+We can also target media feature by screen resolution. For users with higher resolutions we probably want to supply higher resolution media, like images or videos.
+
+To do so we can use `min-resolution` and `max-resolution` media features. These accept a resolution in either dots per inch (dpi) or dots per centimeter (dpc).
+
+```@media only screen and (min-resolution: 300dpi) {
+    /* CSS for high resolution screens */
+}
+```
+This targets high resolution screens by making sure the screen resolution is at least 300 dots per inch.
+
+## And Operator
+
+We use the `and` operator to chain multiple media feature requirements together. Previously, we used to to chain `min-width` and `max-width` together but we can also use it to chain properties like `max-width` and `min-resolution` together as well. For example:
+
+```
+@media only screen and (max-width: 480px) and (min-resolution: 300dpi) {
+    /* CSS ruleset */
+}
+```
+We can use the `and` operator to chain together as many media features as necessary.
+
+## Comma Separated List
+
+If we only need *one* of multiple media features in a media query msut be met, media features can be separated in a comma separated list.
+
+For example, if we needed to apply a style when either
+
+- The screen is more than 480px wide
+**OR**
+- The screen is in landscape mode
+
+We could use 
+
+```
+@media only screen and (min-width: 480px), (orientation: landscape) {
+    /* CSS ruleset */
+}
+```
+Note that the second media feature is `orientation`, which detects if a page has more width than height. If its wider than it is tall, then its considered `landscape` and if its taller than it is wide than it is `portrait`.
+
+## Breakpoints
+
+We know *how* to use media queries to apply CSS rules based on screen size and resolution, but how do we know *what* queries we should set?
+
+The point at which media queries are set are called *breakpoints*. Breakpoints are the screen sizes at which your web page does not appear properly. For example, if we want to target tablets that are in landscape orientation, we can create the following breakpoint:
+
+```
+@media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    /* CSS ruleset */
+}
+```
+
+However, it would be impractical to set breakpoints for every device imaginable because there are so many and there are new devices constantly being released.
+
+Therefore, it is best practice to resize your browser to view where the website naturally breaks based on its content. The dimensions at which the layout breaks or looks odd become your media query breakpoints, and with this information we know what media queries to use in order adjust the CSS styling.
+
+By observing these breakpoints we can create the best possible experience on a project-by-project basis, rather than forcing every project to fit a certain screen size. Different projects have different needs and so creating a responsive design should be no different.
+
+Consult [this list](https://content.codecademy.com/courses/freelance-1/unit-5/screen-sizes.png?_gl=1*g9mb9q*_ga*Mzg2MDEyNTUuMTY1NDEyMDYwOQ..*_ga_3LRZM6TM9L*MTY2OTY4MDgwOC4xMDkuMS4xNjY5NjgzMTEwLjYwLjAuMA..) of breakpoints by device widths for reference when testing your website to make sure it looks great across a variety of devices.
+
+## Summary
+
+- When a website responds to the size of the screen it’s viewed on, it’s called a *responsive* website.
+- Writing *media queries* is how we apply different CSS styles depending on the dimensions of the screen being used. I.e. we query if a screen meets certain requirements and if it does then the CSS is applied.
+- Adding the viewport `<meta>` tag to our code allows us to control the width and scaling of the viewport so that it’s sized and scaled correctly on all devices.
+- Media queries require *media features*. Media features are the conditions that must be met to render the CSS within a media query.
+- Media features can detect many aspects of a user’s browser, including the screen’s width, height, resolution, orientation, and more.
+- The `and` operator requires multiple media features to be true at once.
+- A comma separated list of media features only requires one media feature to be true for the code within to be applied.
+- The best practice for identifying where media queries should be set is by resizing the browser to determine where the content naturally breaks. Natural breakpoints are found by resizing the browser.
+____________________________________________________________________________________________________________________
