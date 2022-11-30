@@ -1816,6 +1816,117 @@ Consult [this list](https://content.codecademy.com/courses/freelance-1/unit-5/sc
 - A comma separated list of media features only requires one media feature to be true for the code within to be applied.
 - The best practice for identifying where media queries should be set is by resizing the browser to determine where the content naturally breaks. Natural breakpoints are found by resizing the browser.
 ____________________________________________________________________________________________________________________
+	
+# CSS Transitions
+
+Various elements of a website can have their visual apperance change, for example like when you mouse over a link on some websites it changes color.
+
+We can control these changes with *CSS transitions*, which are a type of *state change*. CSS transitions allows us to control the timing of visual state changes. We can control:
+
+- Which CSS properties transition
+- How long the transition lasts
+- How much time there is before the transition happens
+- How the transition accelerates
+
+For a complete list of animated properties, [click here.](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animated_properties)
+
+## Duration
+
+To create the most simple kind of transition we must specify two of the four aspects:
+
+- The property we want to change
+- The duration of the transition
+
+```
+a {
+  transition-property: color;
+  transition-duration: 1s;
+}
+```
+
+The code above changes the foreground color of the anchor element over the duration of 1 second.
+
+We can change things like the color values of `color` and `background-color` and the length values such as `font-size`, `width`, and `height`.
+
+Duration can be specified in either **seconds** or **milliseconds**.
+
+## Timing Function
+
+`transition-timing-function` refers to the pace or acceleration of the transition.
+
+The default value is `ease` which starts slowly, speeds up in the middle, and slows down at the end. Some of the other values we can use are:
+
+- `ease-in` starts slow, accelerates quickly, stops abruptly
+- `ease-out` begins abruptly, slows down, and ends slowly
+-`ease-in-out` stars slow, gets fast in the middle, ends slowly
+- `linear` constant speed the whole time
+
+[More information can be found here about timing functions](https://developer.mozilla.org/en-US/docs/Web/CSS/transition-timing-function)
+
+## Delay
+
+`transition-delay` specifies how long we will wait before the transition begins. 
+
+The default value is `0s`, meaning no delay.
+
+```
+transition-property: width;
+transition-duration: 750ms;
+transition-delay: 250ms;
+```
+
+In the example above the width property will change after a delay of 250ms and will animate over 750ms.
+
+## Shorthand
+
+We can use the property `transition` to simplify all four of these properties into one and make our job easier. When we use this property the values must be put in a specific order: `transition-property`, `transition-duration`, `transition-timing-function`, and `transition-delay`
+
+```transition: color 1.5s linear 0.5s;```
+
+If we leave out any of these properties then the default value will be applied with one exception: **you must set the duration if you want to define a delay**. Since both are time values, the browser will always interpret the first value it sees as the duration.
+
+## Combination
+
+The shorthand `transition` also has another great advantage to using it: you can describe multiple unique transitions using a single `transition` property. We separate each transition rule with a comma `,`. For example:
+
+```
+transition: color 1s linear,
+font-size 750ms ease-in 100ms;
+```
+
+This will transition the color over 1 second in a linear time scale **AND** change the font size over 750ms with the ease-in timing function after a 100ms delay.
+
+## All
+
+Even with the shorthand, specifying transitions for many properties can be incredibly tedious. Its common to use the same duration, timing, function, and delay for multiple properties. When this is the case we can set the `transition-property` value to `all`. This applies the same values to all properties.
+
+`all` means every value that changes will be transitioned in the same way. We can use `all` with separate individual transition properties or with the shorthand syntax.
+
+```transition: all 1.5s linear 0.5s;```
+
+This example would change all properties over 1.5seconds in a linear fashion after a 0.5s delay.
+
+## Summary
+
+- CSS Transitions have 4 components:
+
+	- The *property* that will transition
+	- The *duration* of how long the transition will take
+	- The *timing function* that describes the transition's acceleration
+	- The *delay* to pause before the transition will take place
+
+- The most simple transition must include the property and the duration
+- We can use the shorthand property `transition` to define all four components at once
+- We can string multiple transitions together under a single `transition` property by using a comma `,` to separate each transition
+- Many properties *state changes* can be transitioned such as
+	- color & background color
+	- font size
+	- width & height
+- We can use `all` as a transition property value to cause every property to transition
+
+[CSS Transitions documentation can be found here.](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions)
+
+____________________________________________________________________________________________________________________
 
 # Digital Accessibility
 
