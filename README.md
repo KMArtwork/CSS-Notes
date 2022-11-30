@@ -1816,3 +1816,97 @@ Consult [this list](https://content.codecademy.com/courses/freelance-1/unit-5/sc
 - A comma separated list of media features only requires one media feature to be true for the code within to be applied.
 - The best practice for identifying where media queries should be set is by resizing the browser to determine where the content naturally breaks. Natural breakpoints are found by resizing the browser.
 ____________________________________________________________________________________________________________________
+
+# Digital Accessibility
+
+What is accessibility? This refers to designing devices, prodcuts, and environments so that individuals with disabilities or sensory ipairments can successfully use the device or product.
+
+This is in compliance with the ADA, Americans with Disabilties Act, which madates that publica nd private spaces be made accessible to people with disabilties that include but are not limited to
+
+- Sensory impairments
+- Cognitive impairments
+- Phsyical limitations
+
+So then, what is digital accessibility? This specifically refers to accessibility within digital media but is not much different from the general idea of accessibility. 
+
+However, the requirements are very different. Some examples include, but are not limited to
+
+- Screen readers that parse a website for a user with visual impariments
+- Videos on websites are closed-captioned for individuals with hearing impairments
+- Images include "alt text" for individuals with visual impairments
+- Websites must be navigable by keyboard for users who may not be able to operate a mouse
+
+This covers only a brief subset of how websites and mobile apps must incorporate digital accessibility, for more information and the complete list of all guidelines refer to the [web content accessibility guidelines 2.1](https://www.w3.org/TR/WCAG21/)
+
+## ARIA
+
+ARIA stands for Accessible Rich Internet Applications and refers to the guidelines that must be followed to create webpages that are ADA compliant and accessible for people with sensory, cognitive, or physical impairments.
+
+## Semantic HTML Elements
+
+Semantic HTML elements help people who use screen readers. For example, we know that a `<header>` element is supposed to contain introductory and navigational elements like a logo, links, and/or a search bar. 
+
+We *could* create `<div class="header">` but this would not be of help for people who use screen readers.
+
+For a complete list of semantic HTML elements, [click here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
+
+## ARIA Role
+
+Text on a web page can communicate different types of information. Some text may make up the main content of the page, other text may describe navigation icons, still other text might describe input fields or menus. It can be challenging to place text in the context of a web page without knowing where it is positioned or the type of information it is meant to communicate.
+
+We can use the HTML attribute `role` to help give context to web page information. The value of an element's role attribute changes how a screen reader communicates the element.
+
+For example, we can use `role="complimentary"` to let the screen reader know that the information contained in this element is *complimentary*(or supporting) to the information that is being read at the moment. It helps users of screen readers identify the relationship between the sections of a page.
+
+[Here](https://www.w3.org/TR/html-aria/#allowed-aria-roles-states-and-properties) is a list of all acceptable ARIA roles.
+
+## ARIA Role: Presentation
+
+When a screen reader comes across HTML tags it reads the tag out loud every time the tag is encountered. This poses a problem for things like HTML list tags because of how many times we have to use `<ol>`, `<ul>` and/or `<li>`.
+
+We can instruct screen readers to skip reading unnecessary element tags by setting the `role` attribute value to `presentation`.
+
+The `presentation` role skips over element tags and their necessary children. So when we give the `role="presentation"` attribute to a list it will skip reading `<ol>` or `<ul>` and will also skip the `<li>` elements in each list as well.
+
+When we use `role="presentation"` on something like a div, the screen reader will skip reading "div" but it will read the id or class name for the user.
+
+## ARIA Properties
+
+`aria-label` can give the screen reader additional information to read out loud to the user. For example, if we have an image of some artwork and the artist's name underneath it - to a non-visually impaired person it's obvious that this is the name of the artist. 
+
+```<img src="#" alt="A painting of the Shenandoah Valley"/>
+<p>Armand Cabrera, 2010</p>
+```
+
+However, for someone who uses a screen reader they may be a bit confused without any added context. Thats where `aria-label` comes in.
+
+```
+<img src="#" alt="A painting of the Shenandoah Valley"/>
+<p aria-label="Artist">Armand Cabrera, 2010</p>
+```
+
+For a complete list of ARIA properties [click here](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques)
+
+## Alt Attribute
+
+Some HTML elements have a built-in attribute called `alt` that works like `aria-label` but has added functionality.
+
+The `alt` attribute is used to describe an image or several other elements. A screen reader will read this value outloud AND this value will also be what is displayed if the element cannot be loaded/rendered. 
+
+`aria-label` will never be displayed on the screen and is a better choice for elements that do not support the `alt` attribute.
+
+When using the `alt` attribute you should adhere to these conventions:
+
+1. the value shoud concisely describe the image
+2. for images that are also `<a>` elements, the `alt` attribute should describe the source that the link targets
+3. if an image conveys no information, such as a decorative border, the `alt` attribute should be empty but never omitted
+4. if the image is described with text that is near the image, do not duplicate the description in the `alt` attribute and just leave it empty.
+5. the value of an `alt` attribute should be no more than 150 characters
+
+## Summary
+
+- Use semantic HTML elements whenever possible to allow screen reader users to navigate your website more easily
+- The `role` attribute is used to communicate information about the role of specific elements
+- `role="presentation"` allows a screen reader to skip markup elements that don't directly contain useful information
+- `aria-label` and other ARIA properties can be used to help users perceive information that is communicated visually but not through text
+- the `alt` attribute should be added to every image element - and all other elements that support it - instead of `aria-label` and should be a useful description of the image.
