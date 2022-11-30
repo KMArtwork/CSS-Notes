@@ -1928,6 +1928,79 @@ This example would change all properties over 1.5seconds in a linear fashion aft
 
 ____________________________________________________________________________________________________________________
 
+# Font Awesome
+
+We can use Font Awesome as a way to include icons/symbols into our website - such as social media icons or the save icon (floppy disk).
+
+To do this we need to link it within our `head` element and then use the `<i>` tag to add the icons in the HTML.
+
+## Linking Font Awesome
+
+Using the `<link>` tag in our `<head>` element of the HTML we can link the Font Awesome Library to our webpage either from a CDN (content development network) or thru a saved & linked local file.
+
+When linking to a CDN, its recommended to use the [Bootstrap CDN](https://www.bootstrapcdn.com/fontawesome/), which hosts a copy of the Font Awesome library.
+
+```
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css">
+</head>
+```
+The example above is a link to the font awesome stylesheet stored on the Bootstrap CDN server.
+
+We can also [download](http://fontawesome.io/get-started/) the most up-to-date version of the Font Awesome library to use as a local/relative path in our `<link>` element of the `<head>` in the HTML document.
+
+```
+<head>
+  <link rel="stylesheet" href="resources/css/fontawesome.css">
+</head>
+```
+
+Both methods are acceptable however using the CDN method is faster and requires less storage space while the locally stored library will work in the event that the CDN server does down and also allows you the flexibility to use the icons if you ever are developing without internet access.
+
+## Adding Font Awesome Icons
+
+Font Awesome icons are saved as CSS classes and are placed into an HTML document by adding an `<i>` tag with the two classes `fa` and `fa-icon-name` - where "icon-name" refers to the specific class name.
+
+```<i class="fa fa-save"></i>```
+
+This example would render the floppy disk icon. The `fa` that precedes `fa-save` is necessary for all Font Awesome icon elements. We can also use things like 
+
+```
+<i class="fa fa-facebook"></i>
+<i class="fa fa-twitter"></i>
+<i class="fa fa-pinterest"></i>
+```
+
+To render the facebook, twitter, and pintrest icons, respectively.
+
+## Icon Sizing
+
+We can also change the size of the icons with `fa-lg`, `fa-2x`, `fa-3x`, `fa-4x`, and `fa-5x` by 33%, 2x, 3x, 4x, and 5x, respectively. For example:
+
+```
+<i class="fa fa-camera fa-lg"></i>
+<i class="fa fa-cab fa-4x"></i>
+```
+This would render the camera icon as the "large" version, or 33% larger, and the cab icon 4x its default size.
+
+# Managing Assets and Icons
+
+An important part of developing a website is including visual assets such as logos and images. 
+
+*Favicons* are the name of the small image displayed in the tab or the browser bar - look at any of your currently open browser tabs right now and you should see an example.
+
+We can use free online resources like [favicon-generator.org](http://www.favicon-generator.org/) to create favicons.
+
+Another important thing to know is the difference between different image formats like
+
+- JPEGs which are highly compressible file types that is preferred for images with significant detail
+- PNG a file type that is lossess (meaning the full quality is maintained) and generally preferred for images with less detail such as logos
+- SVG which are useful for high resolution screens. *Scalable Vector Graphics* will change size(scale) for various screen sizes and they also contain roughly 50% less data than their JPEG and PNG counterparts, allowing web pages to load more quickly. They are widely used for simple images like icons and logos.
+
+Sometimes we may need to crop &/o resize images for whatever reason, we can do this with softare like Photoshop or with free online resources like [Pixlr](https://pixlr.com/editor/) and we can also convert images to SVGs using [online-convert.com](http://image.online-convert.com/convert-to-svg).
+
+____________________________________________________________________________________________________________________
+	
 # Digital Accessibility
 
 What is accessibility? This refers to designing devices, prodcuts, and environments so that individuals with disabilities or sensory ipairments can successfully use the device or product.
