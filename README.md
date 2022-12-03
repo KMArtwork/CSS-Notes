@@ -1927,6 +1927,367 @@ This example would change all properties over 1.5seconds in a linear fashion aft
 [CSS Transitions documentation can be found here.](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions)
 
 ____________________________________________________________________________________________________________________
+	
+# CSS Variables
+
+In programming languages, variables are symbolic names, or containers, for storing values/information. We can think of them in a similar manner to the way that “x” and “y” are often used as placeholders for values in mathematics.
+
+CSS has variables in its own style—more specifically, they are called *Custom Properties*.
+
+## Defining Variables
+
+Variables are defined with a double hyphen `--` followed by the variable name, after the name is declared you can assign a value to it.
+
+```
+h1 {
+  --main-header-color : #DADECC;
+}
+```
+
+Variables are *case sensitive* so its good practice to avoid using capital letters in variable names to prevent any confusion. It's also common to use hyphen delmited strings such as writing `--list-background-color` instead of `--listBackgroundColor`.
+
+## Using Variables
+
+To use CSS variables as values of properties, we must specify the variable’s name as an argument inside of the `var()` function.
+
+This function allows the specified CSS variable to be used as a value of a property.
+
+```
+h1 {
+  --main-background-color: #DADECC;
+  background-color: var(--main-background-color);
+}
+```
+
+Another powerful way to use CSS variables is to create variables based on other variables. This can be useful for keeping track of color schemes and to keep CSS rules modular.
+
+```
+html {
+  --custom-purple: #FF64ED;
+  --main-color: var(--custom-purple);
+}
+ 
+body {
+  background: var(--main-color);
+}
+```
+
+If we try to redfine `--custom-purple` then no visual changes will happen.
+
+```
+html {
+  --custom-purple: #FF64ED;
+  --main-color: var(--custom-purple);
+}
+ 
+body {
+  /*Trying to override the --custom-purple variable defined in the html selector rules*/
+  --custom-purple: #FFFFF;
+  background: var(--main-color);
+}
+```
+
+In the modified CSS code above, the `--custom-purple` variable was overwritten in the `body` selector rules. But because `--main-color` was already set to the value of the `--custom-purple` variable defined in the `html` selector it doesn’t have any reference to the overwritten variable in `body`. Because of this, the `body` element’s background color will still be `#FF64ED`.
+
+## Scoping Variables
+
+Like other CSS properties, when we define a variable we also give that variable a *scope*. The scope determines where a variable will work based on where it is declared. Variables can be *local* or *global*. 
+
+When a variable is defined inside of a ruleset that variable is *local* to that ruleset. For example:
+
+```
+#menu-items {
+  --menu-color-blue: blue;
+}
+ 
+#menu-items a {
+  color: var(--menu-color-blue);
+}
+```
+
+Because `--menu-color-blue` variable was declared inside the `#menu-items` selector, only `#menu-items` and its children can reference the variable.
+
+*Globally* scoped variables are declared in the `:root` pseudo-class; this points to the root element of the document, hence the name. Typically, the root element is actually the `<html>` element. By declaring the variables in the `:root` they can be applied globally across the entire document.
+
+It is common to define variables inside the `:root` but not mandatory. Sometimes we want to avoid that because it can get messy especially with larger websites, in that case we should create the variables within the relevant components instead of stacking all the variables inside the `:root`.
+
+## Inheriting and Overring Variables
+
+Just as CSS variables are subjected to local and global scope, they also follow standard CSS inheritance. If a variable is not explicitly defined on a child element, the value of its parent variable is used if there is one. This can be important to keep in mind as some property values set on parent elements are inherited by their child elements and some aren’t. As a reminder widths, margins, paddings, and borders do not inherit.
+
+As we saw in the previous exercise, different scopes allow for the same variable to have multiple values when declared in multiple locations.
+
+```
+h1 {
+  --color: pink;
+}
+ 
+p {
+  --color: blue;
+}
+ 
+h1 { 
+  color: var(--color);
+}
+ 
+p {
+  color: var(--color);
+}
+```
+Above, the `--color` variable is being declared and referenced in both the `<p>` and `<h1>` selectors. But in each case the color value is different. CSS has no issues with using variables this way because both variables are locally scoped. We can think of it like the `<h1>` selector only ever knowing about the `--color` variable declaration with a referenced value of pink. With the same being true for the `<p>` selector.
+
+It is also possible to override a variable’s value. A common case for doing this is when we want variables to change only in a specific section of a webpage. For example, if we want a different shade of orange for button elements inside the navigation bar from a submit button elsewhere on the page.
+
+We can re-declare an `--orange-color` variable inside of a specific button selector. And when that `--orange-color` variable is referenced in the specific selector it will be the locally chosen orange color.
+
+```
+:root {
+  --orange-color: #FF933A;
+}
+ 
+body {
+  background-color: var(--orange-color);
+}
+ 
+button {
+  --orange-color: #BF6317;
+  color: var(--orange-color);
+  border: 1px solid black;
+}
+```
+## Fallback Values
+
+Sometimes a given variable may be invalid when a webpage renders, for example, if we accidentally use a variable with the value of `20px` as the value of a `background-color` property. 
+
+Fallback values prevent these types of errors from happening.
+
+Fallback values can be provided as an optional second arguemnt of the `var()` function. These will be used if the first argument is invalid. For example:
+
+```
+body {
+  background: var(--main-background-color, #F3F3F3);
+}
+```
+
+If the value of `--main-background-color` hasnt been explicitly defined or returns a non-color value, then the fallback value of `#F3F3F3` will be used instead.
+
+The fallback value can also be another CSS variable, in which case it must be passed using another `var()` function. Also, note that the `var()` function accepts a maximum of two arguments. Therefore, if we want to have more than 3 fallback values we can chain multiple `var()` together.
+
+```
+body {
+/* --favorite-orange if --main-color is invalid and red if --favorite-orange is invalid and --favorite-yellow if --favorite-orange is invalid */
+font-color: var(--main-color, var(--favorite-orange, var(--favorite-yellow, yellow)));
+}
+```
+
+In the example above, the font color will try to render `--main-color` and if that fails, it will use `--favorite-orange`, and then `--favorite-yellow`, and then finally the keyword `yellow`.
+
+Fallback values are optional but they ensure that specified styles will be applied to the webpage in case of an error.
+
+An important last note on fallback values is that they are not used to fix browser compatibility issues. If the browser being used does not support CSS variables, as is the case with Internet Explorer, fallback variables will not ensure all elements are rendered properly.
+
+## Responsiveness
+
+We can also use variables alongside media queries, for example we can change the color scheme of a website like for dark theme or light themes.
+
+```
+@media screen and (min-width: 600px) {  
+  :root {
+    /* Light Color Theme */
+    --body-background: lightblue; 
+    --inner-margin: 6px;
+    --body-text-color: black;
+    --font-size: 18px;
+  }
+}
+ 
+@media screen and (max-width: 600px) {
+  :root {
+    /* Dark Color Theme */
+    --body-background: #000; 
+    --inner-margin: 12px;
+    --body-text-color: #fff;
+    --font-size: 12px;
+  }
+}
+```
+
+In the example above, we change some of the values of the variables inside the `:root` to apply a dark theme or a light theme. For the sake of the example, the dark theme is applied when the screen width is smaller than `600px` and light theme would be when the screen width is larger than `600px`. Obviously, this is not how or why a dark vs. light theme would be applied but this is just for the sake of making it easy to understand.
+
+If we didn’t use variables to do this, we would need to set new values for the color properties inside the appropriate media queries. But by using variables, all we have to do is redefine the variable directly! When websites scale up and become more complex, with different theme settings, screen variations, and more, redefining a relatively small number of variables becomes much easier than overriding a large number of hardcoded CSS properties.
+
+## Summary
+
+- Variables mitigate the need to repeat property values and make CSS code easier to read.
+- You can use variables in CSS to store values.
+- Variable declaration must start with a double hyphen `--`.
+- Variables must be used as values for CSS properties.
+- Variables must be used as an argument inside of the `var()` function.
+- Variables are subject to both scope and inheritance.
+- Globally scoped variables are defined inside the `:root` pseudo-class.
+- Overriding a variable is done by redefining that variable’s value inside of the desired selector ruleset.
+- Fallback values can be used to provide a backup value if the initial variable is invalid.
+- Multiple fallback values can be provided by adding more values inside cascading `var()` functions.
+- Responsively designed web pages can be created by combining variables with media queries.
+
+____________________________________________________________________
+
+# Functions
+
+In a broad sense, functions are blocks of organized and reusable code that help to perform a single, related action. Functions have the benefit of keeping code modular and allowing for a high degree of reusability.
+
+Functions in CSS are a little more limiting than most programming languages. We cannot create our own functions in CSS but instead have access to a wide variety of predefined functions, which allow for expansive page styling. 
+
+The syntax is as follows:
+
+```
+h1 {
+  property: function-name(argument);
+}  
+```
+
+## Setting a Background Image
+
+We should already be familiar with one common function, which is the `url()` function. This takes a *path* as an argument; the path can be a relative ("/images/bg-image.jpg") or an absolute one ("https://www.website.com/directory/image.jpg"). The path must also be contained within two quote marks `' '` or `" "` and we can use this function set the `background-image` property of any `<div>`.
+
+Once the `background-image` is set, we can also further adjust it with `background-size`, `background-position`, and `background-repeat`.
+
+## Calculating Values
+
+We can use the `calc()` function as a way to take mathmatical expressions as its arguments and return the calculated value. We use this function when a CSS property expects a numeric value.
+
+The function can take in various units as arguments, like `rem`, `vw`, `px`, etc. However, there are a few rules when it comes to the type of operation being performed.
+- When performing addition or subtraction, both numbers being operated on must have specified units. 
+- Division requires the divisor (second operand) to be a unit-less number.
+- Multiplication requires one of the operands to be unit-less.
+The `calc()` function requires whitespace between the operator and the numbers in the expression. The function can also be used as one of the multiple values for a property or argument in another function.
+
+For example, if we wanted to dynamically change the left and right `margin` of an element we could write
+
+```
+.item {
+  margin: 15px calc(1.5vw + 5px);
+}
+```
+
+## mix() and max()
+
+The `min()` function will select *the smallest value* from a range of values and set that as the associated property's value.
+
+The `max()` function will do the opposite and select *the largest value*.
+
+```
+.content {
+  width: 50vw;
+  max-width: 500px;
+}
+```
+
+```
+.content {
+  width: min(500px, 50vw);
+}
+```
+
+These two code snippets achieve the same thing but by using the `min()` function we can simplify the code. 
+
+The top code snippet dictates that if the width of a viewport is greater than 1000px - meaning that `50vw` will  be greater than `500px` - the `width` of the `.content` will be set to a max of `500px`.
+
+When we use the `min()` function, it chooses the smaller value of the two given value arguments - in other words, the function defines the *maximum* width the `.content` div will have. When the viewport width is smaller than 1000px, the max width is `50vw` but when the viewport width is greater than 1000px, the max width is `500px`.
+
+If we replaced the `min()` function in the above examples, then the width of the `.content` would be `500px` if the viewport width is smaller than 1000px. If the viewport width is greater than 1000px, the width of the `.content` will take up a *minimum* of `50vw`
+
+```
+.content {
+  width: max(500px, 50vw);
+}
+```
+
+Both functions follow a similar syntax—you can pass more than one argument, separated by commas, in no specific order, and each argument can be in different units. The arguments of the functions can be other functions, math expressions, and literal values.
+
+## clamp()
+
+Sometimes we will want to design elements to dynamically scale but also stay confined between an upper and lower bound. The `clamp()` function is ideal for achieving this!
+
+```
+.main-text{
+  font-size: clamp(12px, 1.5vw, 48px);
+}
+```
+The clamp() function takes three parameters in a specific order:
+
+1. The first argument specifies the minimum value. If the preferred value, given as the second argument, is less than this value, then the minimum value will be used. In the code snippet above, `12px` is given as the minimum value of the `font-size` property.
+
+2. The second argument specifies the preferred value. This value is used as long as it is greater than the value of the first argument (lower bound) and less than the value of the third argument (upper bound). In the code snippet above, `1.5vw` is given as the preferred value of the `font-size` property.
+
+3. The third argument specifies the maximum value. This value is the largest value that the property will be set to. In the code snippet above, `48px` is given as the maximum value of the `font-size` property.
+
+## Color Functions
+
+Some CSS functions are used specifically for certain properties, these color functions can only be used as values for color properties.
+
+You are probably already familiar with some of the the main color functions, such as:
+
+- `rgb()` defines color using the RGB (red, green, blue) model
+- `rgba()` similar to `rgb()` but has an additional alpha channel which defines the color's opacity level
+- 'hsl()' defines color using hue, saturation, and lightness
+- `hsla()` same as `hsl()` but with an added alpha channel that defines the opacity
+
+## Filter Functions
+
+Like color functions, there are CSS functions specifically for the `filter` and `backdrop-filter` properties.
+
+We can use `brightness()` for the `filter` and `backdrop-filter`  properties to affect an element's overall brightness by applying a linear multiplier to it. It takes a single argument for the amount which can be a number of a percentage. The default value is 100% or 1.0, so therefore any value *under* 100% or 1.0 will darken the element and any value over will brighten it.
+
+`blur()` applies a gaussian blur to a specified element. This function takes a single argument for the radius of the blur specified as a length. The argument must have a unit of measurement attached to it *unless* the amount being set is 0.
+
+`drop-shadow()` applies a drop shadow to the desired element.
+
+```
+drop-shadow(offset-x offset-y blur-radius color)
+```
+
+The offset arguments are required and determine the horizontal and veritcal offset respectively. `blur-radius` is optional and determines the shadow's blur radius - the larger the value the more blurred the shadow. Finally, the `color` argument is also optional and determines the color of the drop shadow. Notice that it is not necessary to separate these arguments with commas. In practice, the code would look like this:
+
+```
+button {
+  filter: drop-shadow(-10px 5px 0.2rem rgba(50, 200, 210, 0.6));
+}
+```
+
+Here is a [complete list](https://developer.mozilla.org/en-US/docs/Web/CSS/filter) of filter functions.
+
+## Transform Functions
+
+We can scale, rotate, and even distort HTML elements using the `transform` property combined with CSS functions.
+
+`scale()` resizes an element both horizontally and vertically on a 2D plane. It can take either one or two parameters, if only one argument is given then the element will grow proportinally on both the x and y-axis. If two arguments are provided, the first argument scales along the x-axis and the second scales the y-axis. If you want to scale an element on *only* one of the two axes, you can use `scaleX()` or `scaleY()`.
+
+`rotate()` can be used for the `transform` property to rotate an element around a fixed point on a given 2D plane. The function accepts a single argument for the angle which must be in degrees, specified with a `deg` unit. Any positive angle means a clockwise rotation while negative angles denote a counter-clockwise rotation. By default, the origin of the rotation is the center of the element being rotated.
+
+`translate()` moves an element from its initial position to another position on the page specified as the function's arguments. The function can accept either one or two arguments - if one argument is provided the function will translate the element *only* on the x-axis and if two arguments are given it will translate across the x-axis by the first argument and the y-axis on the second argument. For example:
+
+```
+.shifted {
+  transform: translate(0px, 100px);
+}
+```
+
+## Summary
+
+- Functions are a type of CSS value that is inserted in place of a hardcoded value on a CSS property
+- The `url()` function is used to load resources into the stylesheet.
+- You can use the `calc()` function to perform simple mathematical operations on elements.
+- The `min()` function can be used to select the smallest value from a range of values and set that value on a property.
+- The `max()` function can be used to select the largest value from a range of values and set that value on a property.
+- You can use the `clamp()` function to ensure property value scales up and down while staying between an upper and lower bound.
+- Color values that are fully opaque can be set using the `rgb()` and `hsl()` functions.
+- Color values that need a varying level of alpha can be set using the `rgba()` and `hsla()` functions.
+- You can use filter functions to change the appearance of input images and elements.
+- The `drop-shadow()`, `blur()`, and `brightness()` functions each perform different kinds of element filtering.
+- You can use transformation functions to manipulate image positioning, scale, rotation, and more.
+- The `scale()`, `rotate()` and `translate()` functions each allow for specific kinds of transformation.
+____________________________________________________________________
 
 # Font Awesome
 
