@@ -2455,3 +2455,414 @@ When using the `alt` attribute you should adhere to these conventions:
 - `role="presentation"` allows a screen reader to skip markup elements that don't directly contain useful information
 - `aria-label` and other ARIA properties can be used to help users perceive information that is communicated visually but not through text
 - the `alt` attribute should be added to every image element - and all other elements that support it - instead of `aria-label` and should be a useful description of the image.
+_________________________________________________________________________________________________________________________
+
+# Web Accessibility
+
+Web accessibility is one of those aspects of web development where its presence, when implemented correctly, goes unnoticed, but its absence can destroy the user experience. There are a variety of considerations to make when making a website accessible, ranging from the size and color of the text to invisible properties that are processed by assistive tools such as screen readers.
+
+## Visual Readability: Scale
+
+If a font is too small or large it can become difficult to read depending on the user's distance from the screen. For smaller screens, a minimum of 18-20pixels is recommended.
+
+Line height is the spacing between lines of text and contributes to readability. When the `line-height` property is too small lines will appear too close together and if it is too large lines are separated by too much distance. The default value is 1.2 however its recommended to be a minimum of 1.5 within paragraphs.
+
+Lastly, `letter-spacing`controls the space between individual characters. By default, the property value is `normal`, increasing or decreasing the value will expand or contract the space between letters.
+
+## Visual Readability: Structure
+
+Text alignment and paragraph width on a page are another important thing to consider. Too wide or too narrow can make the text too difficult to read.
+
+`text-align` is recommended to be set to `left`, `right`, or `center`. The `text-align` property does take `justify` as a value but when its used it can create uneven word spacing to create equal line lengths.
+
+Paragraph width can also impact readability and is recommended to have 45 to 85 characters per line, with the ideal being suggested as 65. We can use `px` as a unit of measure but its more appropriate to use the `ch` unit, where `1ch` is equal to the width of the relative `0` character. `ch` also scales with changes in the value of `font-family` and `font-size`.
+
+## Visual Readability: Color
+
+If the color of a webpage lacks sufficient contrast then elements on can be hard to distinguish from one another. 
+
+The difference in contrast between two colors is known as *contrast ratio* and a minimum contrast ratio must be met in order to adhere to accessibility standards.
+
+According to the Web Content Accessibility Guidelines, contrast ratios are classified using a 3-tier hierarchy.
+
+- Level A is the minimum level
+- Level AA includes all Level A and Level AA requirements. Most organizations strive to meet Level AA.
+- Level AAA includes all three tiers.
+
+The recommended minimum contrast ratios between the background and its text using three standards are as follows:
+
+- 4.5:1 (AA) Text that is less than `24px` (not bold) and `19px` (bold)
+- 3:1 (AA) Text larger than `24px` (not bold) and `19px` (bold)
+- 7:1 (AAA) Text that is less than `24px` (not bold) and `19px` (bold)
+- 4.5:1 (AAA) Text larger than `24px` (not bold) and `19px` (bold)
+
+We can check contrast ratios using [WebAIM](https://webaim.org/resources/contrastchecker/), a stand-alone tool. [Chrome Canary](https://www.google.com/chrome/canary/) is a browswer with built-in contrast ratio display inside it's developer tools.
+
+## Contextual Readability: Interactivity
+
+Another facet of accessibility is providing context clues to users to show them additional information about the elements they are viewing. For instance, when we use abbreviations, like CSS, we can the `<abbr>` HTML element to provide additional context when we mouse over the element on the webpage.
+
+```
+<abbr title='Cascading Style Sheets'>CSS</abbr>
+```
+
+Another simple way to convey interactivity is with links. Styling a link in a unique way allows users to discern them from other text that may discern them, one common way to do this is by underlining links.
+
+```
+a {
+  text-decoration: underline;
+}
+```
+
+Another way we can convey interactivity is by changing the appearance of the mouse cursor from the mouse arrow to the pointer hand. We can do that by writing
+
+```
+.button {
+  cursor: pointer;
+}
+```
+
+## Contextual Readability: Color
+
+Color can also be a contextual indicator of intent or meaning. One common method is when we turn a link purple to indicate we've already clicked on it once before.
+
+```
+a:visited {
+  color: purple;
+}
+```
+Navigation is another contextual use for color, when elements are focused they often have a styling applied to denote where the focus is being applied. This is critical for navigation especially when navigating with modalities other than a mouse, such as a keyboard.
+
+```
+input:focus {
+  border-color: blue;
+}
+```
+
+With the above code, when an input form is clicked on/focused, the border color of the input box will change color. Commonly, they will change to red when there is an error with the input form and green when it is accepted. Other used are yellow for a warning and blue to highlight the need for required information.
+
+## Visibility
+
+Inevitably, at some point, a web page will need to hide content from the users somehow. To hide the content from both users and screen readers, we can set the `visibility` property to `hidden` or the `display` property to `none`.
+
+If we *only* want to hide the content visually, meaning hiding it from users but not screen readers, it can be a little more complex as browser quirks can quickly come into play. This will require more in depth googling and won't be covered here.
+
+The third method is to hide content semantically, meaning we hide it from screen readers but still display it visually. This method is useful for obscuring content that provides no meaningful context to screen reader users, such as decorative icons and repeated text. This can be done by setting the `aria-hidden` HTML attribute to `true`.
+
+```
+<p class='hidden-sentence' aria-hidden='true'>This is hidden from screen readers!</p>
+```
+
+Additionally, styling the specific values for `text-indent`, `font-size`, or `height` can produce the same results but with caveats.
+
+## Design Reflecting Structure
+
+Another important consideration to make when applying CSS to page is the relationship that the CSS stylesheet has with the HTML document's underlying structure. 
+
+For example, lets say we have a flexbox with elements inside that are arranged in a reverse fashion, such as `column-reverse` or `row-reverse`, the order of the elements visually are completely different from their order in the DOM (Document Object Model).
+
+This leads to errors with alternate navigation methods and screen readers as screen readers process the order of the DOM. Meaning, screen readers will still interpret the HTML elements in the order that they are written in the HTML document instead of how they are ordered on the screen.
+
+Due to these considerations, it is important to order the content on your page to make sense in the absence of styling. This will lead to a uniform experience for all users.
+
+## Accessibility Across Mediums
+
+So far we've focused on how our web page looks on screens but we need to also consider other ways of how our web pages are consumed, such as in print.
+
+We can use media queries to change how our web page will look when it is printed by writing:
+
+```
+@media print {
+  nav {
+    display: none;
+  }
+}
+```
+This will get rid of the `nav` element if/when the webpage is printed which is useful for reducing clutter on the page. Print media queries can also be useful for display information from the webpage that wouldn't be understood otherwise, like links. When we use the `<a>` element, the actual URL of the website is hidden and instead appears as a single word or multiple words, like [click here](www.google.com). We can use a media querie to expose the actual URL of the link when a webpage is printed so that the information is still accessible.
+
+```
+@media print {
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+  }
+}
+```
+
+## Summary
+
+- Text should be at least `18px` in size, and paragraphs should have a `line-height` of at least 1.5 to increase the readability of content.
+- Color contrast between elements should be at least 4.5:1 for standard font sizes.
+- Interactive elements should have a visual appearance denoting interactivity, such as underlined links and pointer cursor.
+- Abbreviated content should be given additional content via the `<abbr>` element.
+- When hiding elements from users, use `visibility: hidden;` or `display: none;` to hide content from both assisted and non-assisted users.
+- Visual display should reflect the structure of the presented elements within the HTML to provide navigational coherence for assisted and non-assisted users.
+- Design pages for consumption in different mediums such as print.
+
+We can also use [A11y Coffee](https://a11y.coffee/start-testing/) to audit the web page to see if it meets common accessibility standards.
+____________________________________________________________________
+
+# Browser Compatibility
+
+Sometimes web pages will render differently depending on what browser we are using, thats because different browsers use different browser engines.
+
+## Checking Availability
+
+Every now and then, exciting new HTML, CSS, and JavaScript features get released. However, these new features don't necessarily get adopted at the same speed across all browsers.
+
+The availibility of CSS features differ across browsers and their versions, so using a CSS property supported on only select browsers will create inconsisten experiences for users. There are tools like [caniuse.com](http://caniuse.com/) that can help you find out what browsers support which features.
+
+For instance, the CSS Reflections feature is supported on Chrome but not all versions of Firefox.
+
+## Browser Defaults
+
+Browsers are based on browser engines - the core component responsible for rendering HTML, CSS, and JavaScript in the browser. For example, Chrome, opera, and Edge us Blink, Firefox uses Gecko, and Safari used Webkit. Each of those engines renders features like margins, padding, colors, or text slightly differently. This is because each browser have different *browser styles*.
+
+We can use tools like [browserdefaultstyles.com](https://browserdefaultstyles.com/) to compare default styles across browsers.
+
+There are also tools such as [normalize.css](https://necolas.github.io/normalize.css/) and [minireset.css](https://github.com/jgthms/minireset.css) to eliminate differences between browser default styles and ensure that all elements are rendered the same way across browsers.
+
+## Vendor Prefixes
+
+These are prefixes for property names that can be used as a way of testing new CSS features and/or standards before browsers fully support them. These prefixes are not intended to be used on production websites but sometimesthey are required in order to use certain new features or to support older versions of browsers when those features *were* cutting edge.
+
+Common vendor prefixes include:
+
+- `-webkit-` for Chrome, Safari, newer versions of Opera, and almost all iOS browsers including Firefox and iOS
+- `-moz-` for Firefox
+- `-ms-` for Internet Explorer and Microsoft Edge
+- `-o-` for old pre-WebKit versions of Opera
+
+Eventually, these experimental features are fully adopted into all browsers, at which point the vendor prefix is no longer required. Remember that browsers adopt features at different rates—for newer CSS features, you may need to include prefixed property names alongside.
+
+```
+.tilted {
+  -webkit-transform: rotate(15deg);
+  -moz-transform: rotate(15deg);
+  -ms-transform: rotate(15deg);
+  -o-transform: rotate(15deg);
+  transform: rotate(15deg);
+}
+```
+
+Rather than looking through ever CSS feature on your site to determine which features require vendor prefixes, we can use tools like [Autoprefixer](https://github.com/postcss/autoprefixer) to automatically include all vendor prefixes for the features that require them.
+
+## Polyfills
+
+It’s difficult to keep track of which CSS properties are not supported in certain browsers and their versions. [Polyfills](https://developer.mozilla.org/en-US/docs/Glossary/Polyfill) are JavaScript codes that allow older browsers to behave as though they understand more advanced features than they actually do. These codes rewrite the HTML and CSS codes to simulate features that have not yet been adopted by that version of the browser.
+
+For example, the `text-shadow` property is not supported in some older versions of Internet Explorer and Firefox but can be simulated using other CSS properties. Using JavaScript, we can replace CSS declarations depending on which browser version a user is using to view the website.
+
+We can use tools such as [Modernizr](https://github.com/Modernizr/Modernizr) or [Polyfill.io](https://github.com/financial-times/polyfill-service) to automatically identify and provide all the polyfills that our website might need.
+
+```
+<script src="https://polyfill.io/v3/polyfill.min.js"></script>
+```
+
+We can insert the script above inside of the `<head>` element of the **index.html** document to implement polyfill.io. It will check and apply polyfills for CSS features that are not natively supported by older browsers.
+
+## Summary
+
+- We can check whether a CSS feature is available on specific browsers using tools like [caniuse.com](http://caniuse.com/).
+- Browsers have default styles which we can check using resources like [browserdefaultstyles.com](https://browserdefaultstyles.com/).
+- We sometimes need to use browser-specific prefixes, especially for new CSS features.
+- Polyfills provide a way to support newer web features on older browsers.
+____________________________________________________________________
+
+# CSS Feature Queries
+
+In a world where a variety of browsers run on so many different devices, with each of these browsers varying in their support for CSS features, a stylesheet that does not take browser compatibility into account can cause issues that can potentially break the layout of the entire website.
+
+We can use `@support` in a similar way as we use `@media` and `@viewport` to provide conditional styling to websites based on information about the environment that the website is viewed in.
+
+While we can use tools like [Modernizr](https://github.com/Modernizr/Modernizr) to check for browser support of newer CSS features. Modernizer queries whether the browswer supports a CSS feature and provides appropriate fallbacks and polyfills if necessary. This approach usually works but requires JavaScript which means an additional file needs to be downloaded and executed to render the website, which adds to the loading time.
+
+The `@supports` at-rule makes it possible to query whether a browser supports a particual CSS feature without using JavaScript.
+
+## Syntax 
+
+The syntax for the `@supports` at-rule is very similar to the `@media` at-rule - it applies the CSS declarations within curly brackets `{}` only if the *supports condition* inside the parenthesis `()` is supported.
+
+```
+@supports (aspect-ratio: 4 / 3) {
+   /* Any code here will only run if the browser supports the specified supports condition */
+ }
+```
+
+This query checks to see if the `aspect-ratio` property is supported by the browser and if it *is* supported and if the value `4/3` (read 4:3) can be used. 
+
+The above example mainly checks to see if the `aspect-ratio` *property* is supported, but in other cases it may be the property's *value* that we are checking. For example, if we query the CSS declaration `height: 90vh` using the `@support` at-rule, we can check whether the `height` property is supported as well as whehter the `vh` unit is supported.
+
+`@supports` allows for early adoption of the new CSS features and ensures backward compatibility of a standard feature in older browsers. One feature that is commonly checked is `display: grid` because its not fully supported in any Internet Explorer versions.
+
+```
+/* Checks whether the grid value for the display property is supported first before applying the ruleset for the photo-gallery class */
+.photo-gallery{
+  display: inline-block;
+  margin: 20px;
+}
+ 
+@supports(display: grid){
+  .photo-gallery {
+    display: grid;
+    grid-row-gap: 20px;
+    grid-template-columns: auto auto auto;
+  }
+}
+```
+In the above example, `.photo-gallery` will only be styled to CSS grid if the browser supports CSS grid. If the browser does not support `@supports` then this entire code block will be skipped over as well.
+
+## Logic
+
+In addition to the basic syntax, @supports also can be used with logical operators like `not`, `and`, and `or` or a combination of operators to create more sophisticated queries.
+
+The `not` operator negates the support condition meaning that the code inside the feature query will only run if the declaration provided as the supports condition is *not* supported.
+
+```
+@supports not (background: linear-gradient(red, white, blue)) {
+   /* Any code here will only be applied if the browser does NOT support linear gradients for the background property */
+ }
+```
+The `and` operator joins multiple supports conditions together and the code inside the feature query will only run if *all* the declarations are supported.
+
+```
+@supports (background: linear-gradient(red, white, blue)) and (background-color: rgba(115, 171, 100, 0.4)) {
+   /* Any code here will only be applied if the browser supports linear gradient for the background property AND RGBA color notation for the background-color property */
+ }
+```
+
+The `or` operator checks if any of the support conditions provided is supported and if at least one of them is supported the code inside the query will run.
+
+```
+@supports (background: linear-gradient(red, white, blue)) or
+          (background: -webkit-linear-gradient(red, white, blue)) or
+          (background: -moz-linear-gradient(red, white, blue)) or
+          (background: -ms-linear-gradient(red, white, blue)) or
+          (background: -o-linear-gradient(red, white, blue)) {
+   /* Any code here will be applied if the browser supports any version of the linear gradient for the background-image property */
+ }
+```
+We can also use a combination of operators to create more complex logic 
+
+```
+@supports ((background: linear-gradient(red, white, blue)) or
+          (background: -webkit-linear-gradient(red, white, blue)) or
+          (background: -moz-linear-gradient(red, white, blue)) or
+          (background: -ms-linear-gradient(red, white, blue)) or
+          (background: -o-linear-gradient(red, white, blue))) and
+          (background-color: rgba(115, 171, 100, 0.4)) {
+   /* Any code here will be applied if the browser supports any version of linear gradient for the background property AND RGBA color notation for the background-color property */
+ }
+```
+
+## Best Practices
+
+### Be careful abut using the `not` operator
+
+```
+@supports (content-visibility: auto) {
+  .section {
+    /* This code is applied if the auto variable for the content-visibility property is supported */
+    content-visibility: auto;
+  }
+}
+ 
+@supports not (content-visibility: auto) {
+  .section {
+    /* This code is applied if the auto variable for the content-visibility property is not supported */
+    content-visibility: visible;
+  }
+}
+```
+Remember that not all browsers support CSS feature queries—if the browser does not support the `@supports` at-rule, both of the code blocks above will be ignored even if the browser did support the feature provided as the supports condition. We should be careful not to rely on the `not` logic in general until feature queries become more universally supported.
+
+### Provide Default Code for when Feature Queries Are Not Supported
+
+Since a browser will skip a feature query if the feature queries are not supported by the browser, it is good practice to always provide a default code that is not conditional on feature queries.
+
+```
+/* More backwards-compatible code for older browsers */
+.photo-gallery{
+  display: inline-block;
+  margin: 20px;
+}
+ 
+@supports(display: grid){
+  /* flex box code for newer browsers */
+  .photo-gallery {
+    display: grid;
+    grid-row-gap: 20px;
+    grid-template-columns: auto auto auto;
+  }
+}
+```
+In the example above , the default styling for `.photo-gallery` will be applied first and then if the browser supports `display: grid` then the conditional styling will override the default and be applied.
+
+## Design Philosophies for Browser Compatibility
+
+There are two design philosophies for making websites compatible across browsers: *graceful degradation* and *progressive enhancement*. The tools you use will depend on the approach you take. Feature queries are a tool best used in a progressive enhancement approach.
+
+### Graceful Degradation
+
+This is the idea of working your way down to simpler code when the more complex code fails, think of this like a top-down approach.
+
+```
+.button {
+  /* Use the newer feature by default */
+  background: linear-gradient(red, white, blue);
+}
+@supports not (background: linear-gradient(red, white, blue)) {
+  .button {
+    /* Have a more basic feature as a backup in case the newer feature is not supported */
+    background-color: blue;
+  }
+}
+```
+
+The code above tries to apply a linear gradient as the button background and if the browser *does not* support `background: linear-gradient` then we apply a more simple styling by just making the background color of the button blue.
+
+However, there are several problems with the code above. First, the `@supports` query accomplishes nothing that a standard CSS cascade would not. Second, the code depends on the `not` logic to determine if a feature is not supported. Additionally, if CSS feature queries are not supported then the nested ruleset will be ignored entirely.
+
+As a result, if the browser does not support the `linear-gradient` feature and does not support `@supports`, then elements of the button class will not be styled *at all*. This can be fixed by using CSS cascading:
+
+```
+.button {
+  /* The button will be blue by default */
+  background-color: blue;
+  /* linear-gradient will override the blue button if the feature is supported */
+  background: linear-gradient(red, white, blue);
+}
+```
+
+### Progressive Enhancement
+
+This is the idea of working your way up to more sophisticated code if the browser supports it, think of this as a bottom-up approach. Consider the following:
+
+```
+img {
+  position: absolute;
+  height: 50%;
+  width: 100%;  
+}
+ 
+@supports (object-fit: cover) {
+  img {
+    /* override previous settings if necessary */
+    position: static;
+    /* use newer features */
+    object-fit: cover;
+  }
+}
+```
+
+In the above exmaple, the `img` elements will be styled according to the first ruleset, with its `position` set to `absolute`, the `height` to `50%`, and the `width` to `100%`. 
+
+Then, if the `object-fit` property is supported, the ruleset inside the `@supports` at-rule will override the previous ruleset for `img`. If the browser does not support feature queries then the first ruleset will still be in effect.
+
+## Summary
+
+CSS feature queries allow you to address browser compatibility issues by checking whether the browser supports a CSS feature or not. It is a valuable tool in the web developer’s toolbox to deliver a uniform user experience across various browsers.
+
+- Understand how CSS feature queries work and when to use them
+- Understand the syntax of using the `@supports` at-rule and using logical operators such as `not`, `and`, and `or`
+- Understand the differences in the two approaches of addressing browser compatibility: graceful degradation and progressive enhancement
+- Use CSS feature queries for the progressive enhancement approach
